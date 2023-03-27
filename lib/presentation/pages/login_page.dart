@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
+import 'package:rudo_app_clone/data/service/auth_service.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,7 +38,9 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 80,),
               // TODO se hace asi o se pone el estilo en otra pagina o otra parte como en el app.dart
               PrimaryButton(
-                onPressed: (){}, 
+                onPressed: (){
+                  AuthService().sigInWithGoogle();
+                }, 
                 icon: Image.asset('assets/images/ic-google.png',height: 16,),
                 text: 'Log in con Google',
               ),
