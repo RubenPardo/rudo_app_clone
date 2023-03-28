@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "772525677602",
+    "project_id": "rudo-app-clone",
+    "storage_bucket": "rudo-app-clone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772525677602:android:83657f92ceb00c8c293e7b",
+        "android_client_info": {
+          "package_name": "com.example.rudo_app_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772525677602-snu4cdihbf24bl91q43eh66aoqqons9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxNkNl0gbn_ECKNKJUqINg9Urh4t2I8D8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772525677602-snu4cdihbf24bl91q43eh66aoqqons9q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "772525677602-70757reu7qvg24e5u4emdec3he5qnl42.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rudoAppClone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
