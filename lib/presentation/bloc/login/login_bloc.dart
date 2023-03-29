@@ -1,12 +1,7 @@
-import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:rudo_app_clone/data/model/user/user_auth.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
-import 'package:rudo_app_clone/data/service/auth_service.dart';
 import 'package:rudo_app_clone/domain/use_cases/auth/google_sigin_use_case.dart';
-import 'package:rudo_app_clone/domain/use_cases/auth/refresh_token_use_case.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_state.dart';
 
@@ -18,7 +13,6 @@ class LoginBloc extends Bloc<LogInEvent,LogInState>{
     //final GoogleLoginUseCase loginUseCase = GoogleSignI();
     
     final GoogleSigInUseCase googleSigInUseCase = GoogleSigInUseCase();
-    final CheckValidTokenUseCase checkValidTokenUseCase = CheckValidTokenUseCase();
     ///
     /// evento login
     /// 

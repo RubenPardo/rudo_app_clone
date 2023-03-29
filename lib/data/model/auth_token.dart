@@ -42,7 +42,9 @@ class AuthToken{
   }
   
 
+  /// TODO esta en segundos
   bool isExpired(){
+    throw Exception("CAMBIAR A SEGUNDOS");
     return expiryDate.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch;
   }
 

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:rudo_app_clone/data/model/user/user.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 
 abstract class LogInState extends Equatable{}

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
-import 'package:rudo_app_clone/data/service/auth_service.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_state.dart';
+import 'package:rudo_app_clone/presentation/pages/home_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +32,9 @@ class _LoginPageState extends State<LoginPage> {
         if(state is Error){
             print(state.message);
           }else if(state is Loged){
-            print(state.user);
+            Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage(userData: state.user),));
+
             
           }
       },
@@ -44,38 +44,40 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _body(Size size){
     return Scaffold(
-          body: SizedBox(
-            height: size.height,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/logo-rudo.png', width: size.width*0.648,),
-                  const SizedBox(height: 80,),
-                  SizedBox(
-                    width: size.width*0.735,
-                    child: const Text('¡Bienvenido/a a nuestra app! 😎\n\nAccede con tu cuenta de Rudo i no te pierdas nada.',
-                        textAlign: TextAlign.center,
-                        style: CustomTextStyles.body,),
-                  ),
-                  const SizedBox(height: 80,),
-                  
-                  PrimaryButton(
-                    onPressed: () async{
-                      //AuthService().loginAuth();
-                      context.read<LoginBloc>().add(LogIn());
-                    }, 
-                    icon: Image.asset('assets/images/ic-google.png',height: 16,),
-                    text: 'Log in con Google',
-                  ),
-                ],
+      backgroundColor: Colors.white,
+      body: SizedBox(
+        height: size.height,
+        width: size.width,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/logo-rudo.png', width: size.width*0.648,),
+              const SizedBox(height: 80,),
+              SizedBox(
+                width: size.width*0.735,
+                child: const Text('¡Bienvenido/a a nuestra app! 😎\n\nAccede con tu cuenta de Rudo i no te pierdas nada.',
+                    textAlign: TextAlign.center,
+                    style: CustomTextStyles.bodyLarge,),
               ),
-            ),
+              const SizedBox(height: 80,),
+              
+              PrimaryButton(
+                onPressed: () async{
+                  //AuthService().loginAuth();
+                  context.read<LoginBloc>().add(LogIn());
+                }, 
+                icon: Image.asset('assets/images/ic-google.png',height: 16,),
+                text: 'Log in con Google',
+              ),
+            ],
           ),
-        );
+        ),
+      ),
+    );
 
   }
 

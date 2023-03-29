@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/core/storage_keys.dart';

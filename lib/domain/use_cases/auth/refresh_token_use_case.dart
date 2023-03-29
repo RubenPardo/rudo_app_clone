@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/core/storage_keys.dart';
 import 'package:rudo_app_clone/data/model/auth_token.dart';
-import 'package:rudo_app_clone/data/model/user/user_auth.dart';
 import 'package:rudo_app_clone/data/service/auth_service.dart';
 import 'package:rudo_app_clone/data/service/storage_service.dart';
 

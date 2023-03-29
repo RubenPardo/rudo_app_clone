@@ -15,6 +15,7 @@ class App extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.backgroundColorScaffold,
           useMaterial3: true,
           colorSchemeSeed: AppColors.primaryColor,
         ),

@@ -1,16 +1,12 @@
 
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rudo_app_clone/core/constants.dart';
 import 'package:rudo_app_clone/core/request.dart';
-import 'package:rudo_app_clone/core/storage_keys.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart' as model;
 import 'package:rudo_app_clone/data/model/auth_token.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
-import 'package:rudo_app_clone/data/service/storage_service.dart';
 
 class AuthService{
 
