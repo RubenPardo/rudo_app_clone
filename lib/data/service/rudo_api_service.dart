@@ -4,11 +4,13 @@ import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rudo_app_clone/core/constants.dart';
 import 'package:rudo_app_clone/core/request.dart';
+import 'package:rudo_app_clone/data/model/location.dart';
+import 'package:rudo_app_clone/data/model/office_day.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart' as model;
 import 'package:rudo_app_clone/data/model/auth_token.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 
-class AuthService{
+class RudoApiService{
 
   
   final Request _request = Request.instance;
@@ -35,7 +37,7 @@ class AuthService{
         googleAuth.accessToken ?? ""
       );
     }
-   // await googleSigin.signOut();// close google session to avoid token porblems
+    //await googleSigin.signOut();// close google session to avoid token porblems
     
 
     return null;
@@ -93,30 +95,29 @@ class AuthService{
     }
   }
 
-  Future<void> loginAuth() async{
-    var res = await _request.post("auth/token",data: {
-      'grant_type':'password',
-      'client_id':Constants.clientId,
-      'client_secret':Constants.clientSecret,
-      'username':'rubenpardo@rudo.es',
-      'password':'secret',
-    });
+  /// get the data of the user loged
+  /// no parameters needed because of the authtoken at the header
+  Future<UserData> getUserData()async {
+    var res = await _request.get("user/me");
     if(res.statusCode == 200){
-      print(res.data);
+       return UserData.fromJson(res.data);
+    }else{
+      throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+
+   
+  }
+
+  /// get the data of the user loged
+  /// no parameters needed because of the authtoken at the header
+  Future<List<OfficeDay>> getOfficeDays()async {
+    var res = await _request.get("user/office");
+    if(res.statusCode == 200){
+       
+       return (res.data as List).map<OfficeDay>((rawOfficeDay) => OfficeDay.fromJson(rawOfficeDay)).toList();
     }else{
       throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
-
-   Future<UserData> getUserData()async {
-      var res = await _request.get("user/me");
-      return UserData.fromJson(res.data);
-   }
-
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
-
 
 }

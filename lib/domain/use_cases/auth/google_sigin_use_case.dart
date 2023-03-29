@@ -1,16 +1,18 @@
 
+import 'dart:developer';
+
 import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/core/storage_keys.dart';
 import 'package:rudo_app_clone/data/model/auth_token.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
-import 'package:rudo_app_clone/data/service/auth_service.dart';
+import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/data/service/storage_service.dart';
 import 'package:rudo_app_clone/domain/use_cases/auth/refresh_token_use_case.dart';
 
 class GoogleSigInUseCase {
 
-  final AuthService _authService = AuthService();
+  final RudoApiService _authService = RudoApiService();
   final StorageService _secureStorage = StorageService();
   final CheckValidTokenUseCase checkValidTokenUseCase = CheckValidTokenUseCase();
 
@@ -40,9 +42,8 @@ class GoogleSigInUseCase {
       }
     }else{
       // logged already, get the user
-       await _authService.getUserData();
+       return await _authService.getUserData();
     }
-      
     
     return null;   
   }

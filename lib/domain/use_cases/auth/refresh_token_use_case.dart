@@ -4,12 +4,12 @@ import 'dart:developer';
 import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/core/storage_keys.dart';
 import 'package:rudo_app_clone/data/model/auth_token.dart';
-import 'package:rudo_app_clone/data/service/auth_service.dart';
+import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/data/service/storage_service.dart';
 
 class CheckValidTokenUseCase {
 
-  final AuthService _authService = AuthService();
+  final RudoApiService _authService = RudoApiService();
   final StorageService _secureStorage = StorageService();
 
 
@@ -24,7 +24,8 @@ class CheckValidTokenUseCase {
       // token no exired, return tru
       if(!authToken.isExpired()){
         log('token no expired');
-
+        log(authToken.toStringSecureStorage());
+        Request.instance.updateAuthorization(authToken.accessToken);
         return true;
       }
       // token expirado, refresh it
@@ -40,6 +41,7 @@ class CheckValidTokenUseCase {
       return false;
     }  
     }catch(e){
+      log('error al obtener el token: $e');
       return false;
     }
   }

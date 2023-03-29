@@ -14,7 +14,7 @@ class AuthToken{
   factory AuthToken.fromJsonToken(Map<String,dynamic> jsonToken){
     // the expiryDate can be with expires_in o expires_at
     var expiryDateTmp = jsonToken['expires_in'] != null 
-        ? DateTime.now().add(Duration(milliseconds: jsonToken['expires_in']))
+        ? DateTime.now().add(Duration(seconds: jsonToken['expires_in']))
         : DateTime.fromMillisecondsSinceEpoch(jsonToken['expires_at']);
     return AuthToken(
       accessToken: jsonToken['access_token'], 
@@ -44,7 +44,6 @@ class AuthToken{
 
   /// TODO esta en segundos
   bool isExpired(){
-    throw Exception("CAMBIAR A SEGUNDOS");
     return expiryDate.millisecondsSinceEpoch < DateTime.now().millisecondsSinceEpoch;
   }
 

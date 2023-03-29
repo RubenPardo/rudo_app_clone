@@ -23,7 +23,7 @@ class ImageProfileUserWidget extends StatelessWidget {
           ),
           borderRadius: const BorderRadius.all( Radius.circular(50.0)),
           border: Border.all(
-            color: userData.isSesameOk! ? AppColors.red: AppColors.green,
+            color: userData.isSesameOk! ? AppColors.green: AppColors.primaryColor,
             width: 2.0,
           ),
         ),

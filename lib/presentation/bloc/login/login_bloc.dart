@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/domain/use_cases/auth/google_sigin_use_case.dart';
@@ -28,7 +30,7 @@ class LoginBloc extends Bloc<LogInEvent,LogInState>{
         try{
           
           UserData? user = await googleSigInUseCase.call();
-          
+          log(user.toString());
           if(user!=null){
             emit(Loged(user)); // ------------------------------------- return user
           }
