@@ -23,9 +23,13 @@ class CheckInfo{
 
   }
 
+
+  bool isWorking(){
+    return status == 'working';
+  }
+
   @override
   String toString() {
-    // TODO: implement toString
     return 'Checks: ${checks.toString()}, lastCheck: $lastCheck, totalTimeWorked: $totalTimeWorked, status: $status ]';
   }
 }

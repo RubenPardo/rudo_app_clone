@@ -7,9 +7,12 @@ import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/location.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
+import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart' as model;
 import 'package:rudo_app_clone/data/model/auth_token.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:intl/intl.dart';
+
 
 class RudoApiService{
 
@@ -92,7 +95,7 @@ class RudoApiService{
     if(res.statusCode == 200 && res.data['error'] == null){
       return AuthToken.fromJsonToken(res.data);
     }else{
-      throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+      throw Exception("Error en apiService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
 
@@ -103,7 +106,7 @@ class RudoApiService{
     if(res.statusCode == 200){
        return UserData.fromJson(res.data);
     }else{
-      throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+      throw Exception("Error en apiService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
 
    
@@ -117,7 +120,7 @@ class RudoApiService{
        
        return (res.data as List).map<OfficeDay>((rawOfficeDay) => OfficeDay.fromJson(rawOfficeDay)).toList();
     }else{
-      throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+      throw Exception("Error en apiService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
 
@@ -128,7 +131,17 @@ class RudoApiService{
     if(res.statusCode == 200){
        return (res.data['items'] as List).map<Event>((rawEvent) => Event.fromJson(rawEvent)).toList();
     }else{
-      throw Exception("Error en authService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+      throw Exception("Error en apiService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+  }
+
+  /// get the list of checks of the current user from the api
+  Future<CheckInfo> getCheckInfo() async{
+    var res = await Request.instance.post("api/v2/sesame/time",data: {'fromTime':DateFormat('yyyy-MM-dd').format(DateTime.now())});
+    if(res.statusCode == 200){
+       return CheckInfo.fromJson(res.data);
+    }else{
+      throw Exception("Error en apiService getCheckInfo. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
 
