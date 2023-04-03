@@ -20,8 +20,9 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton( 
-      
+    
       style: OutlinedButton.styleFrom(
+        
         side: BorderSide(color: isMarked ? Colors.transparent : color),
         minimumSize: const Size.fromHeight(50),
         elevation: 0,

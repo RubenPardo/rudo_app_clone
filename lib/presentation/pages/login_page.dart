@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: size.width*0.735,
                 child: const Text('¡Bienvenido/a a nuestra app! 😎\n\nAccede con tu cuenta de Rudo i no te pierdas nada.',
                     textAlign: TextAlign.center,
-                    style: CustomTextStyles.bodyLarge,),
+                    style: CustomTextStyles.bodyMedium,),
               ),
               const SizedBox(height: 80,),
               

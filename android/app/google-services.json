@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "772525677602-q4as2dhbdkich09mj886cvnj908ablii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rudo_app_clone",
+            "certificate_hash": "ef288fea853a625a18af25d5a70456f9e6fbe006"
+          }
+        },
+        {
           "client_id": "772525677602-snu4cdihbf24bl91q43eh66aoqqons9q.apps.googleusercontent.com",
           "client_type": 3
         }

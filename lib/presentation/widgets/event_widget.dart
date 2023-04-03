@@ -1,15 +1,19 @@
+import 'dart:developer';
+
 import 'package:avatar_stack/positions.dart';
 import 'package:flutter/material.dart';
 import 'package:avatar_stack/avatar_stack.dart';
 import 'package:rudo_app_clone/app/styles.dart';
+import 'package:rudo_app_clone/core/utils.dart';
+import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class EventWidget extends StatefulWidget {
-  const EventWidget({super.key, required this.userData});
+  const EventWidget({super.key, required this.event});
 
-  final UserData userData; // TODO cambiar a por la info del evento
+  final Event event; // TODO cambiar a por la info del evento
 
   @override
   State<EventWidget> createState() => _EventWidgetState();
@@ -35,44 +39,79 @@ class _EventWidgetState extends State<EventWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children:  [
-        const Text.rich(
+         Text.rich(
           TextSpan(
-            text: 'Hoy, ',
-            style: CustomTextStyles.title3,
+            text: Utils.getTodayOrTomorrow(widget.event.start),
+            style: CustomTextStyles.title4,
             children: [
               WidgetSpan(
                 alignment: PlaceholderAlignment.baseline,
                 baseline: TextBaseline.alphabetic,
-                child: Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
+                child: Text(Utils.formatData(widget.event.start),style: CustomTextStyles.bodySmall),//Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
               )
             ]
           )
         ),
-         Row(
-            children: [
-              const Text('4',style: CustomTextStyles.bodyMedium),
-              const SizedBox(width: 4,),
-              SizedBox(
+         widget.event.totalAttendees == "0" 
+              ? const SizedBox()
+              : SizedBox(
                 height: 25,
-                width: 55,
-                child: WidgetStack(
-                  positions: RestrictedPositions(
-                    maxCoverage: 0.6,
-                    minCoverage: 0.1,
-                    laying: StackLaying.first
-                  ),
-                  stackedWidgets: [
-                    for (var n = 0; n < 4; n++)
-                      ImageProfileUserWidget(userData:widget.userData),
+                width: 40.0 + (5)* (widget.event.confirmedAttendees.length >= 4 ? 4 :widget.event.confirmedAttendees.length),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(widget.event.totalAttendees,),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ListView.builder(
+                        reverse: true,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: widget.event.confirmedAttendees.length > 4 ? 4 :widget.event.confirmedAttendees.length ,
+                        itemBuilder: (context, index) {
+                          
+                          return Align(
+                            widthFactor: 0.3,
+                            child: SizedBox(width: 25,child: ImageProfileUserWidget(userData:widget.event.confirmedAttendees[index])),
+                          );
+                        },
+                      ),
+                    )
                   ],
-                  buildInfoWidget: (surplus) {
-                    return const SizedBox();
-                  },
                 ),
-              )
-            ],
-          ),
-        
+              ) /*Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(widget.event.totalAttendees,style: CustomTextStyles.bodySmall),
+                  const SizedBox(width: 4,),
+                  Flexible(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: widget.event.confirmedAttendees.length > 4 ? 62 : widget.event.confirmedAttendees.length*25,
+                        minWidth: 10,
+                        maxHeight: 25
+                      ),
+                      // TODO como quitar el padding de la derecha
+                      child: Stack(
+                        children:[
+                          for(int i = 0; (i<widget.event.confirmedAttendees.length && i<4); i++)
+                            Positioned(
+                              right: i*10,
+                              child: SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: ImageProfileUserWidget(userData:widget.event.confirmedAttendees[i]),
+                              )
+                            )
+                          
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+        */
       ],
     );
   }
@@ -80,9 +119,11 @@ class _EventWidgetState extends State<EventWidget> {
   Widget _titleEvent(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text('Cañas en equipo: Android',style: CustomTextStyles.bodyMedium),
-        Text('17:15 - 19:45',style: CustomTextStyles.bodyMedium),
+      children: [
+        Text(widget.event.summary,style: CustomTextStyles.bodySmall),
+        widget.event.hasTime 
+          ? Text(Utils.getRangeDates(widget.event.start, widget.event.end),style: CustomTextStyles.bodySmall)
+          : const SizedBox(),
       ],
     );
   }
@@ -92,7 +133,7 @@ class _EventWidgetState extends State<EventWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
       children: [
-        const Text('¿Vas a venir?',style: CustomTextStyles.title3,),
+        const Text('¿Vas a venir?',style: CustomTextStyles.title4,),
         const SizedBox(height: 12,),
         Row(
           children: [

@@ -3,12 +3,18 @@ import 'package:rudo_app_clone/app/colors.dart';
 
 class CustomTextStyles {
 
+
   static const TextStyle bodyLarge = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16
+  );
+
+  static const TextStyle bodyMedium = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 15
   );
 
-  static const TextStyle bodyMedium = TextStyle(
+  static const TextStyle bodySmall = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14
   );
@@ -28,12 +34,24 @@ class CustomTextStyles {
   static const TextStyle title2 = TextStyle(
     fontWeight: FontWeight.w500,
     color: AppColors.primaryButtonText,
-    fontSize: 15
+    fontSize: 18
   );
 
   static const TextStyle title3 = TextStyle(
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryButtonText,
+    fontSize: 15
+  );
+
+  static const TextStyle title4 = TextStyle(
     fontWeight: FontWeight.w700,
     color: AppColors.primaryButtonText,
+    fontSize: 14
+  );
+
+  static const TextStyle textHint = TextStyle(
+    fontWeight: FontWeight.w400,
+    color: AppColors.hintColor,
     fontSize: 14
   );
 

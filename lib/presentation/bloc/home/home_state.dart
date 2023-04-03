@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
 
 abstract class HomeState extends Equatable{}
@@ -20,10 +21,18 @@ class Error extends HomeState{
   List<Object?> get props => [message];
 }
 
-class Loaded extends HomeState{
+class LoadedOfficeDays extends HomeState{
   final List<OfficeDay> officeDays;
-  Loaded({required this.officeDays});
+  LoadedOfficeDays({required this.officeDays});
   
   @override
   List<Object?> get props => [officeDays];
+}
+
+class LoadedEvents extends HomeState{
+  final List<Event> events;
+  LoadedEvents({required this.events});
+  
+  @override
+  List<Object?> get props => [events];
 }

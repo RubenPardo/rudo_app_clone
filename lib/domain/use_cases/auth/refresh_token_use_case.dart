@@ -33,6 +33,7 @@ class CheckValidTokenUseCase {
         log('token expired');
         AuthToken newToken = await _authService.refreshToken(authToken);
         Request.instance.updateAuthorization(newToken.accessToken);
+        StorageService().writeSecureData(StorageKeys.authToken, newToken.toStringSecureStorage());
         return true;
       }
     }else{

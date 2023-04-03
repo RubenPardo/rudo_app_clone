@@ -7,4 +7,5 @@ class AppColors{
   static const Color primaryButtonText = Color(0xFF12141C);
   static const Color backgroundColorScaffold = Color(0xFFF1F1F1);
   static const Color buttonNoMarked = Color(0xffF9F9F9);
+  static const Color hintColor = Color(0xff9D9FA7);
 }

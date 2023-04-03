@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
@@ -18,12 +21,12 @@ class ImageProfileUserWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xff7c94b6),
           image: DecorationImage(
-            image: NetworkImage(userData.image!.thumbnail!),
-            fit: BoxFit.cover,
+            image: NetworkImage(userData.image != null ?  userData.image!.thumbnail ??  "" : ""),
+            fit: BoxFit.fill,
           ),
           borderRadius: const BorderRadius.all( Radius.circular(50.0)),
           border: Border.all(
-            color: userData.isSesameOk! ? AppColors.green: AppColors.primaryColor,
+            color: userData.isSesameOk!=null ? userData.isSesameOk! ? AppColors.green: AppColors.red : AppColors.primaryColor,
             width: 2.0,
           ),
         ),

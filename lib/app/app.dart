@@ -19,7 +19,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.backgroundColorScaffold,
           useMaterial3: true,
-          colorSchemeSeed: AppColors.primaryColor,
+          
         ),
         home: const LoginPage(),
       ),

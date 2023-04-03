@@ -11,46 +11,47 @@ class OfficeDaysWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.max,
-      children:  officeDays.map(
-        (officeDay) {
-          var splitDay = officeDay.label.split('.');
+    return  SizedBox(
+      height: 65,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: officeDays.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          var splitDay = officeDays[index].label.split('.');
           return _cardDay(
-            location: officeDay.location,
+            location: officeDays[index].location,
             size: size,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [ 
                 Text(splitDay[0].toUpperCase()),
-                Text(splitDay[1],style: CustomTextStyles.title3,),
+                Text(splitDay[1],style: CustomTextStyles.title4,),
               ],
             )
           );
-        }).toList()
+        }
+      ),
     );
   }
 
 
   Widget _cardDay({required Size size,required Widget child, required Location location}){
-    return Expanded(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Card(
-            shape: location == Location.atHome 
-              ? RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: const BorderSide(color: AppColors.primaryColor,width: 2)
-              ) : null,
-            color: location == Location.atWork ? AppColors.primaryColor : AppColors.buttonNoMarked,
-            elevation: 0,
-            child: Container(
-              padding:const EdgeInsets.all(8),
-              child:child,
-            )
-        ),
+    return  AspectRatio(
+      aspectRatio: 1,
+      child: Card(
+        shape: location == Location.atHome 
+          ? RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: AppColors.primaryColor,width: 2)
+          ) : null,
+        color: location == Location.atWork ? AppColors.primaryColor : AppColors.buttonNoMarked,
+        elevation: 0,
+        child: Padding(
+          padding:const EdgeInsets.all(8),
+          child:child,
+        ) 
       ),
     );
   }

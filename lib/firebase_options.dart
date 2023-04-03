@@ -26,10 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -58,5 +55,16 @@ class DefaultFirebaseOptions {
     messagingSenderId: '772525677602',
     projectId: 'rudo-app-clone',
     storageBucket: 'rudo-app-clone.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCU0r80BwDeXQjRkUKAnPHcjmREth2gZUg',
+    appId: '1:772525677602:ios:edcf196544581fae293e7b',
+    messagingSenderId: '772525677602',
+    projectId: 'rudo-app-clone',
+    storageBucket: 'rudo-app-clone.appspot.com',
+    androidClientId: '772525677602-q4as2dhbdkich09mj886cvnj908ablii.apps.googleusercontent.com',
+    iosClientId: '772525677602-70757reu7qvg24e5u4emdec3he5qnl42.apps.googleusercontent.com',
+    iosBundleId: 'com.example.rudoAppClone',
   );
 }
