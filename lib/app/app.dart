@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
 import 'package:rudo_app_clone/presentation/pages/login_page.dart';
 
 class App extends StatelessWidget {
@@ -13,7 +14,8 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LoginBloc(),),
-        BlocProvider(create: (context) => HomeBloc(),)
+        BlocProvider(create: (context) => HomeBloc(),),
+        BlocProvider(create: (context) => SesameBloc(),),
       ],
       child: MaterialApp(
         theme: ThemeData(
