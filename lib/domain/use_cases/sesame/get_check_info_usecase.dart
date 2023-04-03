@@ -24,13 +24,14 @@ class GetCheckInfoUseCase {
   Future<CheckInfo> call() async{
     bool isTokenValid = await CheckValidTokenUseCase().call();
           
-    if(!isTokenValid){
+    if(isTokenValid){
       return  await  _apiService.getCheckInfo();
 
       
+    }else{
+      throw Exception('no se pudo refrescar el token'); // TODO hacerlo mejor
     }
     
-    throw Exception('no se pudo refrescar el token'); // TODO hacerlo mejor
     
        
   }
