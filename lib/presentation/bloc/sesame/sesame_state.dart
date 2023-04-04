@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 
 abstract class SesameState extends Equatable{}
 
@@ -13,14 +13,14 @@ class Error extends SesameState{
   @override
   List<Object?> get props => [message];
 }
-class NoContent extends SesameState{
+class NoLinked extends SesameState{
   @override
   List<Object?> get props => [];
 }
-class Loged extends SesameState{
-  final UserData user;
-  Loged(this.user);
+class Loaded extends SesameState{
+  final CheckInfo info;
+  Loaded(this.info);
   
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [info];
 }

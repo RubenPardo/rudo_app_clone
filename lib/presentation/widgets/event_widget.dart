@@ -80,38 +80,7 @@ class _EventWidgetState extends State<EventWidget> {
                     )
                   ],
                 ),
-              ) /*Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.event.totalAttendees,style: CustomTextStyles.bodySmall),
-                  const SizedBox(width: 4,),
-                  Flexible(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: widget.event.confirmedAttendees.length > 4 ? 62 : widget.event.confirmedAttendees.length*25,
-                        minWidth: 10,
-                        maxHeight: 25
-                      ),
-                      // TODO como quitar el padding de la derecha
-                      child: Stack(
-                        children:[
-                          for(int i = 0; (i<widget.event.confirmedAttendees.length && i<4); i++)
-                            Positioned(
-                              right: i*10,
-                              child: SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: ImageProfileUserWidget(userData:widget.event.confirmedAttendees[i]),
-                              )
-                            )
-                          
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-        */
+              )
       ],
     );
   }

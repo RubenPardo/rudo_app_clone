@@ -15,7 +15,7 @@ class Check{
 
   factory Check.fromJson(Map<String, dynamic> json){
     return Check(
-      date: DateTime.parse(json['created']),
+      date: json['created'] != null ? DateTime.parse(json['created']) : null,
       status: CheckType.fromStatus(json['status'])
     );
   }

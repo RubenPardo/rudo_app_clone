@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
@@ -26,7 +25,7 @@ class _HomePageState extends State<HomePage> {
 
   List<OfficeDay> _officeDays = [];
   late bool _isOfficeDaysLoading;
-  List<Event> _events = [];
+  List<Event> _events = []; // todo pasar a bloc
   late bool _isEventsLoading;
 
   @override
