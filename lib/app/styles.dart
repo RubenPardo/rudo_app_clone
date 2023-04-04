@@ -31,6 +31,12 @@ class CustomTextStyles {
     fontSize: 22
   );
 
+  static const TextStyle title1NoBold = TextStyle(
+    fontWeight: FontWeight.w500,
+    color: AppColors.primaryButtonText,
+    fontSize: 20
+  );
+
   static const TextStyle title2 = TextStyle(
     fontWeight: FontWeight.w500,
     color: AppColors.primaryButtonText,

@@ -13,6 +13,7 @@ import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_state.dart';
+import 'package:rudo_app_clone/presentation/pages/time_record_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class SesameWidget extends StatefulWidget {
@@ -141,6 +142,9 @@ class _SesameWidgetState extends State<SesameWidget> {
 
   Widget _buildTitleSesame(CheckInfo info){
     return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimeRecordPage(checkInfo: info),));
+      },
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +153,7 @@ class _SesameWidgetState extends State<SesameWidget> {
                 ? Text('Llevas ${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}h ${info.getLastStatus() == CheckType.checkIn ? 'trabajando' : 'de pausa'}'
                     ,style: CustomTextStyles.title3,) // ---> Llevas xx:xxh trabajando / de pausa
                 : const Text('Estás out de la oficina'),
-          GestureDetector(onTap: (){}, child: const Icon(Icons.arrow_forward_ios, size: 12,color: AppColors.hintColor,),)
+          const Icon(Icons.arrow_forward_ios, size: 12,color: AppColors.hintColor,),
         ],
       ),
     );
