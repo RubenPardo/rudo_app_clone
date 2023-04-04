@@ -8,6 +8,7 @@ import 'package:rudo_app_clone/data/model/sesame/check.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
+import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
 class InfoCheckDayPage extends StatefulWidget {
   const InfoCheckDayPage({super.key, required this.info});
@@ -21,8 +22,6 @@ class InfoCheckDayPage extends StatefulWidget {
 class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
 
 
-  DateTime _currentDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +34,12 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
           Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 33),
-            child: _buildDaySelector()
+            child: DatePaginatorWidget(
+                nextCallback: (startDate, endDate){}, 
+                previousCallback: (startDate, endDate){}, 
+                startDateTime: DateTime.now(),
+                
+              )
           ),
 
 
@@ -66,42 +70,6 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
           ),
         ],
       ),
-    );
-  }
-
-
- Widget _buildDaySelector(){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        GestureDetector(
-          onTap: () {
-            setState(() {
-               _currentDate = _currentDate.subtract(const Duration(days: 1));        
-
-            });
-          },
-          child: const Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
-        ),
-        Text(((){
-          if(_currentDate.isToday()){
-            return 'Hoy';
-          }
-          return _currentDate.toStringDataNameDayMonth();
-        }()),style: CustomTextStyles.title2,),
-       _currentDate.isToday() 
-        ? const SizedBox() : 
-        GestureDetector(
-          onTap: () {
-            setState(() {
-
-              _currentDate = _currentDate.add(const Duration(days: 1));
-
-            });
-          },
-          child: const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
-        )
-      ],
     );
   }
 

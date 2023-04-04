@@ -44,6 +44,30 @@ extension DateHelpers on DateTime {
         tomorow.year == year;
   }
 
+  bool isThisMonth() {
+    var end = DateTime.now().endOfTheMonth();
+    var start = DateTime.now().startOfTheMonth();
+    log('----------- mes');
+    log('end: $end');
+    log('start: $start');
+    log('this: $this');
+    log('is after start: ${(isAfter(start) || compareTo(start) == 0)}');
+    log('is before end: ${(isAfter(start) || compareTo(start) == 0)}');
+    return (isBefore(end) || compareTo(end) == 0) && (isAfter(start) || compareTo(start) == 0);
+  }
+
+  bool isThisWeek() {
+    var end = DateTime.now().endOfTheWeek();
+    var start = DateTime.now().startOfTheWeek();
+    log('----------- week');
+    log('end: $end');
+    log('start: $start');
+    log('this: $this');
+    log('is after start: ${(isAfter(start) || compareTo(start) == 0)}');
+    log('is before end: ${(isBefore(end) || compareTo(end) == 0)}');
+    return (isBefore(end) || compareTo(end) == 0) && (isAfter(start) || compareTo(start) == 0);
+  }
+
   String toStringHourMinute(){
     return '$hour:$minute';
   }
@@ -52,6 +76,46 @@ extension DateHelpers on DateTime {
   String toStringDataNameDayMonth(){
     List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
     List days = ['Lun.','Mar.','Mie.','Jue.','Vie.',"Sab.","Dom."];
-    return '${days[weekday-1]} ${day} de ${months[month-1]}';
+    return '${days[weekday-1]} $day de ${months[month-1]}';
+  }
+
+  // return a string like 'DD-DD Jun 2022'
+  String toStringHisWeek(){
+    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    return '${startOfTheWeek().day} - ${endOfTheWeek().day} ${months[month-1]} $year';
+  }
+
+  // return a string like 'DD-DD Jun 2022'
+  String toStringHisMonth(){
+    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    return '${months[month-1]} $year';
+  }
+
+
+  DateTime startOfTheWeek(){
+    DateTime temp = subtract(Duration(days: weekday - 1));
+    return DateTime(temp.year, temp.month, temp.day);
+  }
+  
+  DateTime endOfTheWeek(){
+    DateTime temp = add(Duration(days: 7 - weekday));
+   
+    return  DateTime(temp.year, temp.month, temp.day);
+  }
+
+  DateTime startOfTheMonth(){
+    return DateTime(year, month, 1);
+  }
+
+  DateTime startOfThePreviousMonth(){
+    return DateTime(year, month, 0);
+  }
+  
+  
+  DateTime endOfTheMonth(){
+    return DateTime(year, month+1, 0);
+  }
+   DateTime startOfTheNextMonth(){
+    return DateTime(year, month+1, 1);
   }
 }
