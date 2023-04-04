@@ -7,6 +7,7 @@ import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_state.dart';
+import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/event_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/office_days_widget.dart';
@@ -87,14 +88,14 @@ class _HomePageState extends State<HomePage> {
 
   /// return de card section with the content realtionated with sesame
   Widget _sesame(Size size){
-    return _cardBody(
+    return CustomCard(
       child: SesameWidget(userData: widget.userData),
     );
   }
 
   /// return de card section with the content realtionated with sesame
   Widget _buildOfficeDays(Size size){
-    return _cardBody(
+    return CustomCard(
       child: SizedBox(
         width: size.width,
         child: Column(
@@ -111,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
   ///
   Widget _nextEvents(){
-    return _cardBody(
+    return CustomCard(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -127,30 +128,14 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) => 
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: _cardBody(elevation:3,child: EventWidget(event:_events[index])),),
+                    child: CustomCard(elevation:3,child: EventWidget(event:_events[index])),),
               ),
           ],
         ),
     );
   }
 
-  Widget _cardBody({required Widget child, double elevation = 0}){
-    return Card(
-      elevation: elevation,
-      color: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: Container(
-        decoration: const  BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: child
-          ),
-      )
-      );
-  }
+
 
  }
 
