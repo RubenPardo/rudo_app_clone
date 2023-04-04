@@ -4,13 +4,7 @@ import 'package:intl/intl.dart';
 
 class Utils{
 
-  /// format a date time intp a string {Vie. 31 de Mar.}
-  static String formatData(DateTime dateTime){
-    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
-    List days = ['Lun.','Mar.','Mie.','Jue.','Vie.',"Sab.","Dom."];
-    return '${days[dateTime.weekday-1]} ${dateTime.day} de ${months[dateTime.month-1]}';
-  }
-
+  
   /// Return if is today, tomorrow or else nothing
   static String getTodayOrTomorrow(DateTime dateTime){
 
@@ -48,5 +42,16 @@ extension DateHelpers on DateTime {
     return tomorow.day == day &&
         tomorow.month == month &&
         tomorow.year == year;
+  }
+
+  String toStringHourMinute(){
+    return '$hour:$minute';
+  }
+
+  /// format a date time intp a string {Vie. 31 de Mar.}
+  String toStringDataNameDayMonth(){
+    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    List days = ['Lun.','Mar.','Mie.','Jue.','Vie.',"Sab.","Dom."];
+    return '${days[weekday-1]} ${day} de ${months[month-1]}';
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
+import 'package:rudo_app_clone/presentation/pages/info_checks_day_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 
 class TimeRecordPage extends StatefulWidget {
@@ -16,6 +17,9 @@ class TimeRecordPage extends StatefulWidget {
 }
 
 class _TimeRecordPageState extends State<TimeRecordPage> {
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,16 +62,9 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
-              Text('Esta semana, 20-26 Jun 2022',style: CustomTextStyles.title2,),
-              Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
-            ],
-          ),
+        _buildDaySelector(),
         const SizedBox(height: 8,),
-       Row(
+        Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -106,6 +103,17 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
     );
   }
 
+  Widget _buildDaySelector(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: const [
+        Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
+        Text('Esta semana, 20-26 Jun 2022',style: CustomTextStyles.title2,),
+        Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
+      ],
+    );
+  }
+
   Widget _buildMonthBalance(){
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +128,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
   Widget _buildTodayWorkTime(){
     return GestureDetector(
       onTap: () {
-        
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoCheckDayPage(info: widget.checkInfo),));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -153,4 +161,5 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
       iconTheme: const IconThemeData(color: AppColors.fuchsia),
     );
   }
+
 }
