@@ -7,6 +7,7 @@ import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
+import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
 import 'package:rudo_app_clone/data/model/sesame/hour_balance.dart';
 import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/presentation/pages/info_checks_day_page.dart';
@@ -72,7 +73,8 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
-            const Text('Hoy, Mie. 22 de Jun', style: CustomTextStyles.title1NoBold,),
+            
+            Text('Hoy, ${DateTime.now().toStringDataNameDayMonth()}', style: CustomTextStyles.title1NoBold,),
             const SizedBox(height: 16,),
             // inside a row to expand to the max width of the parent column
             Row( children: [ Expanded(
@@ -125,6 +127,19 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
 
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyChecks(DayStatus dayStatus){
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(width: 20,child: Image.asset(dayStatus.asset,),),
+          const SizedBox(width: 4,),
+          Text(dayStatus.value)
+        ],
       ),
     );
   }
@@ -182,7 +197,9 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoCheckDayPage(info: widget.checkInfo, workingTime:widget.workingTime),));
       },
-      child: Row(
+      child: widget.checkInfo.checks.isEmpty 
+        ? _buildEmptyChecks(widget.checkInfo.dayStatus)
+        : Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
