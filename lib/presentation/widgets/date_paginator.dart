@@ -130,7 +130,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
               // back
               _currentDate = _currentDate.startOfThePreviousMonth();     
-              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheMonth(),_currentDate.endOfTheMonth());
             });
           },
           child: const Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
@@ -148,7 +148,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
               // add
               _currentDate = _currentDate.startOfTheNextMonth();
-              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheMonth(),_currentDate.endOfTheMonth());
             });
           },
           child: const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
