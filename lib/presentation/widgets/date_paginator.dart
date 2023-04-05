@@ -6,10 +6,9 @@ import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 
 class DatePaginatorWidget extends StatefulWidget {
-  const DatePaginatorWidget({super.key, required this.nextCallback, required this.previousCallback, required this.startDateTime, this.isWeekly = false, this.isMonthly = false, this.isDaily = true});
+  const DatePaginatorWidget({super.key, required this.callback, required this.startDateTime, this.isWeekly = false, this.isMonthly = false, this.isDaily = true});
   
-  final Function(DateTime start, DateTime end) nextCallback;
-  final Function(DateTime start, DateTime end) previousCallback;
+  final Function(DateTime start, DateTime end) callback;
   final DateTime startDateTime;
   final bool isWeekly;
   final bool isMonthly;
@@ -60,7 +59,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
           onTap: () {
             setState(() {
                _currentDate = _currentDate.subtract(const Duration(days: 1));        
-              widget.previousCallback(_currentDate,_currentDate);
+              widget.callback(_currentDate,_currentDate);
             });
           },
           child: const Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
@@ -78,7 +77,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
 
               _currentDate = _currentDate.add(const Duration(days: 1));
-              widget.nextCallback(_currentDate,_currentDate);
+              widget.callback(_currentDate,_currentDate);
             });
           },
           child: const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
@@ -95,7 +94,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
           onTap: () {
             setState(() {
                _currentDate = _currentDate.subtract(const Duration(days: 7));        
-              widget.previousCallback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
             });
           },
           child: const Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
@@ -113,7 +112,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
 
               _currentDate = _currentDate.add(const Duration(days: 7));
-              widget.nextCallback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
             });
           },
           child: const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
@@ -131,7 +130,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
               // back
               _currentDate = _currentDate.startOfThePreviousMonth();     
-              widget.previousCallback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
             });
           },
           child: const Icon(Icons.arrow_back_ios, color: AppColors.fuchsia,size: 21,),
@@ -149,7 +148,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
             setState(() {
               // add
               _currentDate = _currentDate.startOfTheNextMonth();
-              widget.nextCallback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
+              widget.callback(_currentDate.startOfTheWeek(),_currentDate.endOfTheWeek());
             });
           },
           child: const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)

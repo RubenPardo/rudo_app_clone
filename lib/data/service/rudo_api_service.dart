@@ -8,6 +8,7 @@ import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/location.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
+import 'package:rudo_app_clone/data/model/sesame/hour_balance.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart' as model;
 import 'package:rudo_app_clone/data/model/auth_token.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
@@ -142,6 +143,20 @@ class RudoApiService{
        return CheckInfo.fromJson(res.data);
     }else{
       throw Exception("Error en apiService getCheckInfo. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+  }
+
+  /// get the list of checks of the current user from the api
+  Future<HourBalance> getHourBalanceFromTo(DateTime from, DateTime to) async{
+    var res = await Request.instance.post("api/v2/sesame/time/range",
+      data: {
+        'startAt':DateFormat('yyyy-MM-dd hh:mm:ss').format(from),
+        'endAt':DateFormat('yyyy-MM-dd hh:mm:ss').format(to),
+      });
+    if(res.statusCode == 200){
+       return HourBalance.fromJson(res.data);
+    }else{
+      throw Exception("Error en apiService getHourBalanceFromTo. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
 

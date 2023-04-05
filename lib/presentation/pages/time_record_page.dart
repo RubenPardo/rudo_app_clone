@@ -1,9 +1,14 @@
 
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
+import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
+import 'package:rudo_app_clone/data/model/sesame/hour_balance.dart';
+import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/presentation/pages/info_checks_day_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
@@ -20,8 +25,42 @@ class TimeRecordPage extends StatefulWidget {
 
 class _TimeRecordPageState extends State<TimeRecordPage> {
 
+  HourBalance? monthHourBalance;
+  bool isMonthLoading = true;
 
+  HourBalance? weekHourBalance;
+  bool isWeekLoading = true;
   
+
+  void updateMonthBalance(DateTime startDate, DateTime endDate)async{
+    setState((){
+      isMonthLoading = true;
+    });
+    monthHourBalance = await RudoApiService().getHourBalanceFromTo(startDate, endDate);
+    
+    setState(() {
+      isMonthLoading = false;
+    });
+  }
+
+  void updateWeekBalance(DateTime startDate, DateTime endDate)async{
+    setState((){
+      isWeekLoading = true;
+    });
+    weekHourBalance = await RudoApiService().getHourBalanceFromTo(startDate, endDate);
+    
+    setState(() {
+      isWeekLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    updateMonthBalance(DateTime.now().startOfTheMonth(), DateTime.now().endOfTheMonth());
+    updateWeekBalance(DateTime.now().startOfTheWeek(), DateTime.now().endOfTheWeek());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,16 +81,47 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
               )
             ),],),
 
-            Row( children: [ Expanded(
-              child: CustomCard(
-                child: _buildWeekBalance()
-              )
-            ),],),
-            Row( children: [ Expanded(
-              child: CustomCard(
-                child: _buildMonthBalance()
-              )
-            ),],),
+            Row(
+              children: [
+                Expanded(child: CustomCard(child: 
+                  _buildHourBalance(
+                    DatePaginatorWidget(
+                      callback: (startDate, endDate)async {
+  
+                        updateMonthBalance(startDate,endDate);
+
+                      }, 
+                     
+                      startDateTime: DateTime.now(),
+                      isMonthly: true,
+                    ),
+                    monthHourBalance,
+                    isMonthLoading
+                  ),
+                ))
+              ],
+            ),
+
+            Row(
+              children: [
+                Expanded(child: CustomCard(child: 
+                  _buildHourBalance(
+                    DatePaginatorWidget(
+                      callback: (startDate, endDate)async {
+  
+                        updateWeekBalance(startDate,endDate);
+
+                      }, 
+                     
+                      startDateTime: DateTime.now(),
+                      isWeekly: true,
+                    ),
+                    weekHourBalance,
+                    isWeekLoading
+                  ),
+                ))
+              ],
+            )
 
           ],
         ),
@@ -59,19 +129,16 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
     );
   }
 
-  Widget _buildWeekBalance(){
+  Widget _buildHourBalance(DatePaginatorWidget datePaginator, HourBalance? hourBalance, bool isLoading){
     Size size = MediaQuery.of(context).size;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        DatePaginatorWidget(
-          nextCallback: (startDate, endDate){}, 
-          previousCallback: (startDate, endDate){}, 
-          startDateTime: DateTime.now(),
-          isWeekly: true,
-        ),
+        datePaginator,
         const SizedBox(height: 8,),
-        Row(
+        isLoading 
+          ? const Padding(padding: EdgeInsets.all(16), child:  Center(child: CircularProgressIndicator(),),)
+          : Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -79,7 +146,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('47:00h', style: CustomTextStyles.title2),
+                  Text(hourBalance!.theoric, style: CustomTextStyles.title2),
                   const SizedBox(height: 4,),
                   ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23),child: const Text('Tiempo objetivo', style: CustomTextStyles.bodySmall,textAlign: TextAlign.center,),)
                 ],
@@ -88,7 +155,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
             Expanded(
               child: Column(
                 children: [
-                  const Text('25:00h', style: CustomTextStyles.title2,),
+                  Text(hourBalance.worked, style: CustomTextStyles.title2,),
                   const SizedBox(height: 4,),
                   ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23), child: const Text('Tiempo trabajado', style: CustomTextStyles.bodySmall,textAlign: TextAlign.center,)),
                 ],
@@ -97,58 +164,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
             Expanded(
               child: Column(
                 children: [
-                  Text('-24:00h', style: CustomTextStyles.title2.copyWith(color: AppColors.red)),
-                  const SizedBox(height: 4,),
-                  ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23), child: const Text('Balance', style: CustomTextStyles.bodySmall)),
-                ],
-              ),
-            )
-          ],
-        )
-        
-      ],
-    );
-  }
-
-  Widget _buildMonthBalance(){
-    Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        DatePaginatorWidget(
-          nextCallback: (startDate, endDate){}, 
-          previousCallback: (startDate, endDate){}, 
-          startDateTime: DateTime.now(),
-          isMonthly: true,
-        ),
-        const SizedBox(height: 8,),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('47:00h', style: CustomTextStyles.title2),
-                  const SizedBox(height: 4,),
-                  ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23),child: const Text('Tiempo objetivo', style: CustomTextStyles.bodySmall,textAlign: TextAlign.center,),)
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  const Text('25:00h', style: CustomTextStyles.title2,),
-                  const SizedBox(height: 4,),
-                  ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23), child: const Text('Tiempo trabajado', style: CustomTextStyles.bodySmall,textAlign: TextAlign.center,)),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                children: [
-                  Text('-24:00h', style: CustomTextStyles.title2.copyWith(color: AppColors.red)),
+                  Text(hourBalance.balance, style: CustomTextStyles.title2.copyWith(color: hourBalance.balance.contains("-") ? AppColors.red : AppColors.green)),
                   const SizedBox(height: 4,),
                   ConstrainedBox(constraints: BoxConstraints(maxWidth: size.width*0.23), child: const Text('Balance', style: CustomTextStyles.bodySmall)),
                 ],

@@ -36,8 +36,7 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
             color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 33),
             child: DatePaginatorWidget(
-                nextCallback: (startDate, endDate){}, 
-                previousCallback: (startDate, endDate){}, 
+                callback: (startDate, endDate){}, 
                 startDateTime: DateTime.now(),
                 
               )
