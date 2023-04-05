@@ -33,3 +33,6 @@ flutter:
   assets:
     - 'assets/images/ic-google.png'
     - 'assets/images/logo-rudo.png'
+    - 'assets/images/warning.png'
+    - 'assets/images/festivity.png'
+    - 'assets/images/medical.png'

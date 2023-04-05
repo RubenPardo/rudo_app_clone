@@ -1,15 +1,16 @@
 
 import 'package:rudo_app_clone/data/model/sesame/check.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
+import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
 
 
 class CheckInfo{
   final List<Check> checks;
   final Check lastCheck;
   final String totalTimeWorked;
-  final String status; // if is festivity or working
+  final DayStatus dayStatus; // if is festivity or working
 
-  CheckInfo({required this.checks,required this.lastCheck, required this.totalTimeWorked, required this.status});
+  CheckInfo({required this.checks,required this.lastCheck, required this.totalTimeWorked, required this.dayStatus});
 
   factory CheckInfo.fromJson(Map<String, dynamic> json){
 
@@ -17,7 +18,7 @@ class CheckInfo{
       checks: (json['checks'] as List).map<Check>((raw) => Check.fromJson(raw)).toList(), 
       lastCheck: Check.fromJson(json['last_check']), 
       totalTimeWorked: json['total_time_worked'], 
-      status: json['status']
+      dayStatus: DayStatus.fromString(json['status'])
     );
 
   }
@@ -75,6 +76,57 @@ class CheckInfo{
     });
   }
 
+  factory CheckInfo.dummyAll(){
+    return CheckInfo.fromJson({
+        "checks": [
+            {
+            "created": "2023-04-03 08:40:22",
+            "modified": "2023-04-03 08:40:22",
+            "last_check_time": null,
+            "status": "in"
+          },
+          {
+              "created": "2023-04-03 10:30:16",
+              "modified": "2023-04-03 10:30:17",
+              "last_check_time": null,
+              "status": "pause"
+          },
+          {
+              "created": "2023-04-03 11:00:16",
+              "modified": "2023-04-03 11:00:17",
+              "last_check_time": null,
+              "status": "in"
+          },
+          {
+              "created": "2023-04-03 14:57:16",
+              "modified": "2023-04-03 14:57:17",
+              "last_check_time": null,
+              "status": "out"
+          },
+          {
+              "created": "2023-04-03 15:27:00",
+              "modified": "2023-04-03 18:06:21",
+              "last_check_time": null,
+              "status": "in"
+          },
+          {
+              "created": "2023-04-03 17:33:00",
+              "modified": "2023-04-03 17:33:00",
+              "last_check_time": "17:33:00",
+              "status": "out"
+          }
+      ],
+      "last_check": {
+          "created": "2023-04-03 17:33:00",
+          "modified": "2023-04-03 17:33:00",
+          "last_check_time": "17:33:00",
+          "status": "out"
+      },
+      "total_time_worked": "8:22:54",
+      "status": "working"
+    });
+  }
+
 
 
   /// get a duration that start from the work/pause time passed
@@ -99,7 +151,7 @@ class CheckInfo{
 
   @override
   String toString() {
-    return 'Checks: ${checks.toString()}, lastCheck: $lastCheck, totalTimeWorked: $totalTimeWorked, status: $status ]';
+    return 'Checks: ${checks.toString()}, lastCheck: $lastCheck, totalTimeWorked: $totalTimeWorked, status: $dayStatus ]';
   }
 }
 
