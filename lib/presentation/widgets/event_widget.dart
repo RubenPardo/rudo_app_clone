@@ -52,7 +52,7 @@ class _EventWidgetState extends State<EventWidget> {
             ]
           )
         ),
-         widget.event.totalAttendees == "0" 
+         widget.event.confirmedAttendees.isEmpty 
               ? const SizedBox()
               : SizedBox(
                 height: 25,
@@ -60,7 +60,7 @@ class _EventWidgetState extends State<EventWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.event.totalAttendees,),
+                    Text(widget.event.confirmedAttendees.length.toString(),),
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: ListView.builder(
@@ -89,10 +89,9 @@ class _EventWidgetState extends State<EventWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.event.summary,style: CustomTextStyles.bodySmall),
-        widget.event.hasTime 
-          ? Text(Utils.getRangeDates(widget.event.start, widget.event.end),style: CustomTextStyles.bodySmall)
-          : const SizedBox(),
+        Text(widget.event.title,style: CustomTextStyles.bodySmall),
+         Text(Utils.getRangeDates(widget.event.start, widget.event.end),style: CustomTextStyles.bodySmall)
+    
       ],
     );
   }

@@ -27,8 +27,8 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
           emit(LoadedOfficeDays(officeDays:officeDays));
 
 
-          //List<Event> events = await GetUpcomingEventsUseCase().call();
-          emit(LoadedEvents(events:[]));
+          List<Event> events = await GetUpcomingEventsUseCase().call();
+          emit(LoadedEvents(events:events));
           
 
         }catch(e){

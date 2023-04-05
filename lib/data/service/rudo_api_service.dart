@@ -1,6 +1,7 @@
 
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rudo_app_clone/core/constants.dart';
 import 'package:rudo_app_clone/core/request.dart';
@@ -128,9 +129,11 @@ class RudoApiService{
   /// get the google calendar events of the user loged
   /// no parameters needed because of the authtoken at the header
   Future<List<Event>> getGoogleCallendarEvents()async {
-    var res = await _request.get("google/events");
+    
+    Response res = await _request.get("api/v2/google/events");
+   
     if(res.statusCode == 200){
-       return (res.data['items'] as List).map<Event>((rawEvent) => Event.fromJson(rawEvent)).toList();
+       return (res.data as List).map<Event>((rawEvent) => Event.fromJson(rawEvent)).toList();
     }else{
       throw Exception("Error en apiService loginGoogle. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
