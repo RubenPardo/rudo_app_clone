@@ -8,6 +8,7 @@ import 'package:rudo_app_clone/data/model/sesame/check.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
 import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
+import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
@@ -22,6 +23,26 @@ class InfoCheckDayPage extends StatefulWidget {
 
 class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
 
+  late CheckInfo _info;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _info = widget.info;
+  }
+
+
+  void updateCheckInfo(DateTime day)async{
+    setState((){
+      isLoading = true;
+    });
+    _info = await RudoApiService().getCheckInfo(day);
+    
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +57,10 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
             color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 33),
             child: DatePaginatorWidget(
-                callback: (startDate, endDate){}, 
+                callback: (startDate, endDate){
+                  // if is Daily start and end date are the same
+                  updateCheckInfo(startDate);
+                }, 
                 startDateTime: DateTime.now(),
                 
               )
@@ -56,7 +80,7 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
                 // hours worked today
                 Row( children: [ Expanded(
                   child: CustomCard(
-                    child: _buildTodayWorkTime()
+                    child: _buildTodayWorkTime(_info)
                   )
                 ),],),
                 const SizedBox(height: 16,),
@@ -65,7 +89,9 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
 
                 Row( children: [ Expanded(
                   child: CustomCard(
-                    child: widget.info.checks.isEmpty ? _buildEmptyChecks(widget.info.dayStatus) : _buildChecks()
+                    child: !isLoading 
+                      ? _info.checks.isEmpty ? _buildEmptyChecks(_info.dayStatus) : _buildChecks(_info)
+                      : const Padding(padding: EdgeInsets.all(16), child: Center(child: CircularProgressIndicator(),),)
                   )
                 ),],),
               ],
@@ -90,19 +116,19 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
   }
 
   /// build a list with the diferents checks of the user
-  Widget _buildChecks(){
+  Widget _buildChecks(CheckInfo info){
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.info.checks.length,
+      itemCount: info.checks.length,
       itemBuilder: (context, index) {
         String text = '';
         
-        Check currentCheck = widget.info.checks[index];
-        if(index == widget.info.checks.length-1){
+        Check currentCheck = info.checks[index];
+        if(index == info.checks.length-1){
           text = '${currentCheck.date!.toStringHourMinute()} - ';
         }else{
-          text = '${currentCheck.date!.toStringHourMinute()} - ${(widget.info.checks[index+1].date!).toStringHourMinute()}';
+          text = '${currentCheck.date!.toStringHourMinute()} - ${(info.checks[index+1].date!).toStringHourMinute()}';
         }
         return _buildCheckItem(currentCheck, text);
       },
@@ -150,7 +176,7 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
     );
   }
 
-  Widget _buildTodayWorkTime(){
+  Widget _buildTodayWorkTime(CheckInfo info){
     return  Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,7 +185,9 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
           Text.rich(
             TextSpan(
               style: CustomTextStyles.title1,
-              text: '${widget.workingTime}h',
+              text: (info.lastCheck.date !=null && info.lastCheck.date!.isToday()) 
+                ? '${widget.workingTime}h' 
+                : '${info.totalTimeWorked.split(":")[0]}:${info.totalTimeWorked.split(":")[1]}h',
               children: const [
                 TextSpan(
                   text: ' tiempo trabajado',style: CustomTextStyles.bodyMedium)

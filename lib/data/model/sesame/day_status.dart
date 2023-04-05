@@ -1,5 +1,6 @@
 enum DayStatus{
   festivity('assets/images/festivity.png','Festivos y findes'), 
+  holiday('assets/images/holiday.png','Vacaciones'), 
   working('assets/images/warning.png','No se tienen registros'), 
   medicalLeave('assets/images/medical.png','Baja médica'),
   noFound('','');
@@ -11,6 +12,8 @@ enum DayStatus{
     switch(type){
       case 'festivity':
         return DayStatus.festivity;
+      case 'holiday':
+        return DayStatus.holiday;
       case 'working':
         return DayStatus.working;
       case 'medical': // todo cambiar

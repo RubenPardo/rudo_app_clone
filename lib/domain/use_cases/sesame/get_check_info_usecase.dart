@@ -25,7 +25,7 @@ class GetCheckInfoUseCase {
     bool isTokenValid = await CheckValidTokenUseCase().call();
           
     if(isTokenValid){
-      return  await  _apiService.getCheckInfo();
+      return  await  _apiService.getCheckInfo(DateTime.now());
 
       
     }else{

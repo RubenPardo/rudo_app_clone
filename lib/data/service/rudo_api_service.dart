@@ -137,8 +137,8 @@ class RudoApiService{
   }
 
   /// get the list of checks of the current user from the api
-  Future<CheckInfo> getCheckInfo() async{
-    var res = await Request.instance.post("api/v2/sesame/time",data: {'fromTime':DateFormat('yyyy-MM-dd').format(DateTime.now())});
+  Future<CheckInfo> getCheckInfo(DateTime day) async{
+    var res = await Request.instance.post("api/v2/sesame/time",data: {'fromTime':DateFormat('yyyy-MM-dd').format(day)});
     if(res.statusCode == 200){
        return CheckInfo.fromJson(res.data);
     }else{
