@@ -37,8 +37,16 @@ class _SesameWidgetState extends State<SesameWidget> {
   bool _passwordVisible = false;
   bool _formError = false;
   bool _sesameLoading = false;
+
+  /// atributes to control the working timer 
   Timer? workingTimer;
   Duration duration = const Duration();
+  String workingTime = '00:00';
+
+  /// atributes to control the pause timer 
+  Timer? pauseTimer;
+  Duration durationPause = const Duration();
+  String pauseTime = '00:00';
 
   @override
   void initState() {
@@ -108,18 +116,56 @@ class _SesameWidgetState extends State<SesameWidget> {
 
   /// start a timer of working time or paused time
   void _initTimer(CheckInfo info){
-     setState(() {
+
+    
+
+    if(info.lastCheck.status == CheckType.checkIn){
+      setState(() {
         duration = info.getDurationLastCheck();
+        workingTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
       });
+      // is working
+      // pause if possible the two timers
+      if(pauseTimer!=null && pauseTimer!.isActive){
+        pauseTimer!.cancel();
+      }
 
       if(workingTimer!=null && workingTimer!.isActive){
         workingTimer!.cancel();
       }
+      // init the work timer
       workingTimer = Timer.periodic(const Duration(seconds: 30), (timer) { 
           setState(() {
             duration = duration + const Duration(seconds: 30);
+            workingTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
           });
       });
+    }else{
+      setState(() {
+        duration = info.getDurationLastCheck();
+        pauseTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
+      });
+      // is pause
+      // pause if possible the two timers
+      if(pauseTimer!=null && pauseTimer!.isActive){
+        pauseTimer!.cancel();
+      }
+
+      if(workingTimer!=null && workingTimer!.isActive){
+        workingTimer!.cancel();
+      }
+
+      // init the pause timer
+      pauseTimer = Timer.periodic(const Duration(seconds: 30), (timer) { 
+          setState(() {
+            duration = duration + const Duration(seconds: 30);
+            pauseTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
+          });
+      });
+    }
+
+     
+
   }
 
   /// builded when the user does have the sesame linked
@@ -143,14 +189,14 @@ class _SesameWidgetState extends State<SesameWidget> {
   Widget _buildTitleSesame(CheckInfo info){
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimeRecordPage(checkInfo: info),));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimeRecordPage(checkInfo: info,workingTime:workingTime),));
       },
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           info.getLastStatus() != CheckType.checkout
-                ? Text('Llevas ${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}h ${info.getLastStatus() == CheckType.checkIn ? 'trabajando' : 'de pausa'}'
+                ? Text('Llevas ${info.getLastStatus() == CheckType.checkIn ? '${workingTime}h trabajando' : '${pauseTime}h de pausa'}'
                     ,style: CustomTextStyles.title3,) // ---> Llevas xx:xxh trabajando / de pausa
                 : const Text('Estás out de la oficina'),
           const Icon(Icons.arrow_forward_ios, size: 12,color: AppColors.hintColor,),

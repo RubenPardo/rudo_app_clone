@@ -47,24 +47,12 @@ extension DateHelpers on DateTime {
   bool isThisMonth() {
     var end = DateTime.now().endOfTheMonth();
     var start = DateTime.now().startOfTheMonth();
-    log('----------- mes');
-    log('end: $end');
-    log('start: $start');
-    log('this: $this');
-    log('is after start: ${(isAfter(start) || compareTo(start) == 0)}');
-    log('is before end: ${(isAfter(start) || compareTo(start) == 0)}');
     return (isBefore(end) || compareTo(end) == 0) && (isAfter(start) || compareTo(start) == 0);
   }
 
   bool isThisWeek() {
     var end = DateTime.now().endOfTheWeek();
     var start = DateTime.now().startOfTheWeek();
-    log('----------- week');
-    log('end: $end');
-    log('start: $start');
-    log('this: $this');
-    log('is after start: ${(isAfter(start) || compareTo(start) == 0)}');
-    log('is before end: ${(isBefore(end) || compareTo(end) == 0)}');
     return (isBefore(end) || compareTo(end) == 0) && (isAfter(start) || compareTo(start) == 0);
   }
 

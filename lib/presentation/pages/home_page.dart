@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/styles.dart';
@@ -7,6 +9,8 @@ import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_state.dart';
+import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_event.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/event_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
@@ -29,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   List<Event> _events = []; // todo pasar a bloc
   late bool _isEventsLoading;
 
+
+  Completer _refreshCompleter = Completer();
+
   @override
   void initState() {
     super.initState();
@@ -43,18 +50,30 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: BlocConsumer<HomeBloc,HomeState>(
         builder: (context, state) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
-              child: Column(
-                children: [
-                  _name(),
-                  const SizedBox(height: 16,),
-                  _sesame(size),
-                  _buildOfficeDays(size),
-                  _nextEvents(),
-                  /// 
-                ],
+          return RefreshIndicator(
+            onRefresh: () {
+              setState(() {
+                _isEventsLoading = true;
+                _isOfficeDaysLoading = true;
+              });
+              context.read<HomeBloc>().add(InitHome());
+              context.read<SesameBloc>().add(InitSesame());
+              return Future(() => null);
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
+                child: Column(
+                  children: [
+                    _name(),
+                    const SizedBox(height: 16,),
+                    _sesame(size),
+                    _buildOfficeDays(size),
+                    _nextEvents(),
+                    /// 
+                  ],
+                ),
               ),
             ),
           );

@@ -7,14 +7,15 @@ import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/sesame/check.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
+import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
 class InfoCheckDayPage extends StatefulWidget {
-  const InfoCheckDayPage({super.key, required this.info});
+  const InfoCheckDayPage({super.key, required this.info, required this.workingTime});
 
-  final CheckInfo info; // TODO este info debe pillarse del bloc del sesame, para cuando entres se actualice la hora?
-
+  final CheckInfo info;
+  final String workingTime;
   @override
   State<InfoCheckDayPage> createState() => _InfoCheckDayPageState();
 }
@@ -60,9 +61,12 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
                   )
                 ),],),
                 const SizedBox(height: 16,),
+
+                
+
                 Row( children: [ Expanded(
                   child: CustomCard(
-                    child: _buildChecks()
+                    child: widget.info.checks.isEmpty ? _buildEmptyChecks(widget.info.dayStatus) : _buildChecks()
                   )
                 ),],),
               ],
@@ -73,6 +77,18 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
     );
   }
 
+  Widget _buildEmptyChecks(DayStatus dayStatus){
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(width: 20,child: Image.asset(dayStatus.asset,),),
+          const SizedBox(width: 4,),
+          Text(dayStatus.value)
+        ],
+      ),
+    );
+  }
 
   /// build a list with the diferents checks of the user
   Widget _buildChecks(){
@@ -144,7 +160,7 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
           Text.rich(
             TextSpan(
               style: CustomTextStyles.title1,
-              text: '${widget.info.totalTimeWorked.toString().split(':')[0]}:${widget.info.totalTimeWorked.toString().split(':')[1]}h',
+              text: '${widget.workingTime}h',
               children: const [
                 TextSpan(
                   text: ' tiempo trabajado',style: CustomTextStyles.bodyMedium)

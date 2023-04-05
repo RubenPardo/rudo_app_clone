@@ -9,9 +9,10 @@ import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
 class TimeRecordPage extends StatefulWidget {
-  const TimeRecordPage({super.key, required this.checkInfo});
+  const TimeRecordPage({super.key, required this.checkInfo, required this.workingTime});
 
   final CheckInfo checkInfo;
+  final String workingTime;
 
   @override
   State<TimeRecordPage> createState() => _TimeRecordPageState();
@@ -163,7 +164,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
   Widget _buildTodayWorkTime(){
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoCheckDayPage(info: widget.checkInfo),));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoCheckDayPage(info: widget.checkInfo, workingTime:widget.workingTime),));
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +173,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
           Text.rich(
             TextSpan(
               style: CustomTextStyles.title1,
-              text: '${widget.checkInfo.totalTimeWorked.toString().split(':')[0]}:${widget.checkInfo.totalTimeWorked.toString().split(':')[1]}h',
+              text: '${widget.workingTime}h',
               children: const [
                 TextSpan(
                   text: ' tiempo trabajado',style: CustomTextStyles.bodyMedium)

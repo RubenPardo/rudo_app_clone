@@ -18,14 +18,12 @@ class SesameBloc extends Bloc<SesameEvent,SesameState>{
       (event, emit) async{
         emit(Loading());
         CheckInfo checkInfo;
-        log('INIT SESAME');
+
         try{
           checkInfo = await GetCheckInfoUseCase().call();
-          log('INIT EMIT LOADED');
-          emit(Loaded(checkInfo));
+
           emit(Loaded(checkInfo));
         }catch(e){
-          log('INIT ERROR');
           emit(Error(e.toString()));
         }
 
