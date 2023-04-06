@@ -65,7 +65,7 @@ extension DateHelpers on DateTime {
   }
 
   String toStringHourMinute(){
-    return '$hour:$minute';
+    return DateFormat('HH:mm').format(this);
   }
 
   /// format a date time intp a string {Vie. 31 de Mar.}
@@ -113,5 +113,15 @@ extension DateHelpers on DateTime {
   }
    DateTime startOfTheNextMonth(){
     return DateTime(year, month+1, 1);
+  }
+}
+
+
+extension DurationExtension on Duration{
+  String toStringHoursMinutes() {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(inSeconds.remainder(60));
+    return "${twoDigits(inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

@@ -8,7 +8,7 @@ import 'package:rudo_app_clone/data/model/sesame/geo_point.dart';
 /// @[date] when it was done
 class Check{
   final GeoPoint? point;
-  final CheckType status;
+  CheckType status;
   final DateTime? date;
 
   Check({this.date, this.point, required this.status});

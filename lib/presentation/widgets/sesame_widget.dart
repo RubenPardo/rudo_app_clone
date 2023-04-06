@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
+import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
@@ -76,8 +77,11 @@ class _SesameWidgetState extends State<SesameWidget> {
         if(state is NoLinked){
           return _buildLinkSesame(size);
         }
-        if(state is Loaded){
-          return _buildSesame(size,state.info);
+        if(state is Loaded || state is Error){
+          if(context.read<SesameBloc>().checkInfo == null){
+            return _buildLinkSesame(size);
+          }
+          return _buildSesame(size,context.read<SesameBloc>().checkInfo!);
         }
         
         return const Padding(padding: EdgeInsets.all(8), child: Center(child: CircularProgressIndicator(),));
@@ -96,10 +100,11 @@ class _SesameWidgetState extends State<SesameWidget> {
         }
 
         if(state is Loaded){
-
+          CheckInfo info = context.read<SesameBloc>().checkInfo!;
           // init the working or pause timer
-          if(state.info.getLastStatus() == CheckType.checkIn || state.info.getLastStatus() == CheckType.pause){
-            _initTimer(state.info);
+          if(info.getLastStatus() == CheckType.checkIn || info.getLastStatus() == CheckType.pause){
+
+            _initTimer(info);
           }
           // ------------
         
@@ -107,6 +112,10 @@ class _SesameWidgetState extends State<SesameWidget> {
 
         if(state is Error){
           log(state.message);
+          Utils.showSnakError("Error inesperado",context);
+          setState(() {
+            _sesameLoading = false;
+          });
         }
       },
     );
@@ -137,13 +146,14 @@ class _SesameWidgetState extends State<SesameWidget> {
       workingTimer = Timer.periodic(const Duration(seconds: 30), (timer) { 
           setState(() {
             duration = duration + const Duration(seconds: 30);
-            workingTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
+            workingTime = duration.toStringHoursMinutes();
           });
       });
     }else{
+      
       setState(() {
         duration = info.getDurationLastCheck();
-        pauseTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
+        pauseTime =  duration.toStringHoursMinutes();
       });
       // is pause
       // pause if possible the two timers
@@ -215,12 +225,18 @@ class _SesameWidgetState extends State<SesameWidget> {
               children: [
                 Expanded(
                     child: PrimaryButton(onPressed: (){
+                        _showConfirmDialog('¿Seguro que quieres realizar una pausa?',(){
+                          context.read<SesameBloc>().add(AddCheck(CheckType.pause));
+                        });
                         
                       }, text: 'Pausa', color: AppColors.primaryColor,),
                   ),
                   const SizedBox(width: 8,),
                 Expanded(
                     child: PrimaryButton(onPressed: (){
+                        _showConfirmDialog('¿Seguro que quieres hacer check out?',(){
+                          context.read<SesameBloc>().add(AddCheck(CheckType.checkout));
+                        });
                         
                       }, text: 'Check out', color: AppColors.red,),
                   )
@@ -229,8 +245,11 @@ class _SesameWidgetState extends State<SesameWidget> {
           )
          // else only the check in
         :  PrimaryButton(onPressed: (){
+                 _showConfirmDialog('¿Seguro que quieres hacer check in?',(){
+                          context.read<SesameBloc>().add(AddCheck(CheckType.checkIn));
+                        });
                 
-              }, text: 'Check in', color: AppColors.green,
+            }, text: 'Check in', color: AppColors.green,
           ),
           
     );
@@ -362,6 +381,80 @@ class _SesameWidgetState extends State<SesameWidget> {
      );
   }
 
-  
+
+  Future<bool?> _showConfirmDialog(String content, Function()? onConfirm) async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          content: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16)
+              ),
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Padding(padding: EdgeInsets.all(16),child: Text('¡Aviso!',style: CustomTextStyles.title2,),),
+                  const Divider(),
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 16),child: Text(content,style: CustomTextStyles.bodyLarge,textAlign: TextAlign.center,),),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+
+                        Expanded(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16))
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                child: const Text('No',style: CustomTextStyles.bodyLarge,),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                          )
+                        ),
+
+                        Expanded(
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(16))
+                            ),
+                            child: Center(
+                              child: TextButton(
+                                onPressed: (){
+                                  onConfirm!.call();
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Sí',style: CustomTextStyles.bodyLarge,),
+                              ),
+                            ),
+                          )
+                        ),
+
+                        
+                    ],
+                  ),
+                  
+                ],
+              )
+
+              
+            ),
+        );
+      },
+    );
+  }
 
 }

@@ -18,9 +18,9 @@ class NoLinked extends SesameState{
   List<Object?> get props => [];
 }
 class Loaded extends SesameState{
-  final CheckInfo info;
-  Loaded(this.info);
+  
+  Loaded();
   
   @override
-  List<Object?> get props => [info];
+  List<Object?> get props => [];
 }

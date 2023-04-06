@@ -1,7 +1,7 @@
 enum CheckType{
 
   checkIn(1),
-  checkout(3), // TODO averiguar si es el 3 de verdad
+  checkout(1), // Se usa el mismo para el check in y el check out
   pause(7), 
   noFound(-1);
 
@@ -14,7 +14,7 @@ enum CheckType{
     switch(type){
       case 1:
         return CheckType.checkIn;
-      case 3:
+      case 1:
         return CheckType.checkout;
       case 7:
         return CheckType.pause;

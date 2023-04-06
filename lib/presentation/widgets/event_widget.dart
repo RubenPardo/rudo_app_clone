@@ -8,7 +8,7 @@ import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
-import 'package:rudo_app_clone/domain/update_event_use_case.dart';
+import 'package:rudo_app_clone/domain/use_cases/update_event_use_case.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 

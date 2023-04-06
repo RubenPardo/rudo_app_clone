@@ -18,25 +18,9 @@ class InitSesame extends SesameEvent{
 
 }
 
-class CheckIn extends SesameEvent{
-  final CheckType checkType = CheckType.checkIn;
-  CheckIn();
-  
-  @override
-  List<Object?> get props => [checkType];
-}
-
-class CheckOut extends SesameEvent{
-  final CheckType checkType = CheckType.checkout;
-  CheckOut();
-  
-  @override
-  List<Object?> get props => [checkType];
-}
-
-class Pause extends SesameEvent{
-  final CheckType checkType = CheckType.pause;
-  Pause();
+class AddCheck extends SesameEvent{
+  final CheckType checkType;
+  AddCheck(this.checkType);
   
   @override
   List<Object?> get props => [checkType];

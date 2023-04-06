@@ -9,7 +9,10 @@ import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/location.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
+import 'package:rudo_app_clone/data/model/sesame/check.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
+import 'package:rudo_app_clone/data/model/sesame/geo_point.dart';
+import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
 import 'package:rudo_app_clone/data/model/sesame/hour_balance.dart';
 import 'package:rudo_app_clone/data/model/user/user_auth.dart' as model;
 import 'package:rudo_app_clone/data/model/auth_token.dart';
@@ -173,6 +176,20 @@ class RudoApiService{
     });
     if(res.statusCode == 200){
        return Event.fromJson(res.data);
+    }else{
+      throw Exception("Error en apiService updateEventStatus. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+  }
+
+  Future<Check> updateCheckInfo(GeoPoint currentLocation, CheckType checkType) async{
+    var res = await Request.instance.post("sesame/in",
+      data: {   
+          "type": checkType.value.toString(),
+          "longitude": double.parse(currentLocation.longitude),
+          "latitude": double.parse(currentLocation.latitud)
+      });
+    if(res.statusCode == 200){
+       return Check.fromJson(res.data['data']['check']);
     }else{
       throw Exception("Error en apiService updateEventStatus. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
