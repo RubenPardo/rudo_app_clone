@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rudo_app_clone/core/constants.dart';
 import 'package:rudo_app_clone/core/request.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
+import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/location.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
@@ -160,6 +161,20 @@ class RudoApiService{
        return HourBalance.fromJson(res.data);
     }else{
       throw Exception("Error en apiService getHourBalanceFromTo. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+  }
+
+  /// update the status from an event
+  Future<Event> updateEventStatus(Event event, ResponseStatus status) async{
+    var res = await Request.instance.patch("api/v2/google/events/update",
+      data: {
+        "event_id": event.eventId,
+        "response_status": status.name
+    });
+    if(res.statusCode == 200){
+       return Event.fromJson(res.data);
+    }else{
+      throw Exception("Error en apiService updateEventStatus. StatusCode: ${res.statusCode} Data: ${res.data}");
     }
   }
 

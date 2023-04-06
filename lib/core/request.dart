@@ -50,4 +50,8 @@ class Request {
   Future<Response> post(String path, {Object? data}) async {
     return await dio.post(path, data: data);
   }
+
+  Future<Response> patch(String path, {Object? data}) async {
+    return await dio.patch(path, data: data);
+  }
 }

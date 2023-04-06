@@ -33,6 +33,7 @@ class Event {
       });
 
   factory Event.fromJson(Map<String, dynamic> json) {
+    
     return Event(
       eventId: json['event_id'], 
       title: json['title'], 
@@ -42,8 +43,8 @@ class Event {
       user: json['user'], 
       start: DateTime.parse('${json['start']}'), 
       end: DateTime.parse('${json['end']}'), 
-      confirmedAttendees: json['confirmedAttendees'] != null ? (json['confirmedAttendees'] as List).map<UserData>((v) {return UserData.fromJson(v);}).toList() : [], 
-      responseStatus: ResponseStatus.fromString(json['responseStatus']), 
+      confirmedAttendees: json ['confirmedAttendees'] != null ? (json['confirmedAttendees'] as List).map<UserData>((v) {return UserData.fromJson(v);}).toList() : [], 
+      responseStatus: ResponseStatus.fromString(json['me']['responseStatus']), 
       isFeatured: json['is_featured']);
     
   

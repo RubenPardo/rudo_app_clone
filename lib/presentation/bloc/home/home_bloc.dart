@@ -28,6 +28,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
 
 
           List<Event> events = await GetUpcomingEventsUseCase().call();
+          log(events.first.eventId);
           emit(LoadedEvents(events:events));
           
 

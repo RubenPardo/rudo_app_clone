@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 
 class Utils{
@@ -24,6 +26,12 @@ class Utils{
     final f =  DateFormat('hh:mm');
     return '${f.format(start)} - ${f.format(end)}';
 
+  }
+
+  static void showSnakError(String s, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(s))
+    );
   }
 
   

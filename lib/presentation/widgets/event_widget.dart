@@ -6,20 +6,31 @@ import 'package:avatar_stack/avatar_stack.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
+import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/domain/update_event_use_case.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class EventWidget extends StatefulWidget {
   const EventWidget({super.key, required this.event});
 
-  final Event event; // TODO cambiar a por la info del evento
+  final Event event;
 
   @override
   State<EventWidget> createState() => _EventWidgetState();
 }
 
 class _EventWidgetState extends State<EventWidget> {
+
+  late Event _eventTmp;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventTmp = widget.event;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,7 +40,13 @@ class _EventWidgetState extends State<EventWidget> {
         const SizedBox(height: 12,),
         _titleEvent(),
         const SizedBox(height: 12,),
-        _assistEvent()
+
+        if(_eventTmp.responseStatus == ResponseStatus.accepted)
+          _confirmedEvent(),
+        if(_eventTmp.responseStatus == ResponseStatus.declined)
+          _declinedEvent(),
+        if(_eventTmp.responseStatus == ResponseStatus.needsAction)
+          _needToConfirmEvent()
       ],
     );
   }
@@ -41,26 +58,26 @@ class _EventWidgetState extends State<EventWidget> {
       children:  [
          Text.rich(
           TextSpan(
-            text: Utils.getTodayOrTomorrow(widget.event.start),
+            text: Utils.getTodayOrTomorrow(_eventTmp.start),
             style: CustomTextStyles.title4,
             children: [
               WidgetSpan(
                 alignment: PlaceholderAlignment.baseline,
                 baseline: TextBaseline.alphabetic,
-                child: Text(widget.event.start.toStringDataNameDayMonth(),style: CustomTextStyles.bodySmall),//Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
+                child: Text(_eventTmp.start.toStringDataNameDayMonth(),style: CustomTextStyles.bodySmall),//Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
               )
             ]
           )
         ),
-         widget.event.confirmedAttendees.isEmpty 
+         _eventTmp.confirmedAttendees.isEmpty 
               ? const SizedBox()
               : SizedBox(
                 height: 25,
-                width: 40.0 + (5)* (widget.event.confirmedAttendees.length >= 4 ? 4 :widget.event.confirmedAttendees.length),
+                width: 40.0 + (5)* (_eventTmp.confirmedAttendees.length >= 4 ? 4 : _eventTmp.confirmedAttendees.length),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.event.confirmedAttendees.length.toString(),),
+                    Text(_eventTmp.confirmedAttendees.length.toString(),),
                     Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: ListView.builder(
@@ -68,12 +85,12 @@ class _EventWidgetState extends State<EventWidget> {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: widget.event.confirmedAttendees.length > 4 ? 4 :widget.event.confirmedAttendees.length ,
+                        itemCount: _eventTmp.confirmedAttendees.length > 4 ? 4 :_eventTmp.confirmedAttendees.length ,
                         itemBuilder: (context, index) {
                           
                           return Align(
                             widthFactor: 0.3,
-                            child: SizedBox(width: 25,child: ImageProfileUserWidget(userData:widget.event.confirmedAttendees[index])),
+                            child: SizedBox(width: 25,child: ImageProfileUserWidget(userData:_eventTmp.confirmedAttendees[index])),
                           );
                         },
                       ),
@@ -89,14 +106,14 @@ class _EventWidgetState extends State<EventWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.event.title,style: CustomTextStyles.bodySmall),
-         Text(Utils.getRangeDates(widget.event.start, widget.event.end),style: CustomTextStyles.bodySmall)
+        Text(_eventTmp.title,style: CustomTextStyles.bodySmall),
+         Text(Utils.getRangeDates(_eventTmp.start, _eventTmp.end),style: CustomTextStyles.bodySmall)
     
       ],
     );
   }
 
-  Widget _assistEvent(){
+  Widget _confirmedEvent(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -107,10 +124,67 @@ class _EventWidgetState extends State<EventWidget> {
           children: [
             Expanded(child: PrimaryButton(onPressed: (){}, text: 'Sí')),
             const SizedBox(width: 16,),
-            Expanded(child: PrimaryButton(onPressed: (){}, text: 'No', isMarked: false,)),
+            Expanded(child: PrimaryButton(onPressed: (){
+              log('declined');
+              _updateEvent(ResponseStatus.declined);
+            }, text: 'No', isMarked: false,)),
           ],
         )
       ],
     );
+  }
+
+  Widget _needToConfirmEvent(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const Text('¿Vas a venir?',style: CustomTextStyles.title4,),
+        const SizedBox(height: 12,),
+        Row(
+          children: [
+            Expanded(child: PrimaryButton(onPressed: (){
+              _updateEvent(ResponseStatus.accepted);
+            }, text: 'Sí', isMarked: false,)),
+            const SizedBox(width: 16,),
+            Expanded(child: PrimaryButton(onPressed: (){
+              _updateEvent(ResponseStatus.declined);
+            }, text: 'No', isMarked: false,)),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget _declinedEvent(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const Text('¿Vas a venir?',style: CustomTextStyles.title4,),
+        const SizedBox(height: 12,),
+        Row(
+          children: [
+            Expanded(child: PrimaryButton(onPressed: (){
+              _updateEvent(ResponseStatus.accepted);
+            }, text: 'Sí', isMarked: false,)),
+            const SizedBox(width: 16,),
+            Expanded(child: PrimaryButton(onPressed: (){}, text: 'No',)),
+          ],
+        )
+      ],
+    );
+  }
+  
+  void _updateEvent(ResponseStatus status) async{
+    try{
+      Event e = await UpdateEventUseCase().call(status,_eventTmp);
+      log(e.responseStatus.toString());
+      setState(() {
+        _eventTmp = e;
+      });
+    }catch(e){
+      Utils.showSnakError('No se pudo actualizar el evento', context);
+    }
   }
 }
