@@ -48,56 +48,53 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-
-
-          // dat selector
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 33),
-            child: DatePaginatorWidget(
-                callback: (startDate, endDate){
-                  // if is Daily start and end date are the same
-                  updateCheckInfo(startDate);
-                }, 
-                startDateTime: DateTime.now(),
-                
-              )
-          ),
-
-
-         
-          
-          
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              children: [
-
-                const SizedBox(height: 16,),
-
-                // hours worked today
-                Row( children: [ Expanded(
-                  child: CustomCard(
-                    child: _buildTodayWorkTime(_info)
-                  )
-                ),],),
-                const SizedBox(height: 16,),
-
-                
-
-                Row( children: [ Expanded(
-                  child: CustomCard(
-                    child: !isLoading 
-                      ? _info.checks.isEmpty ? _buildEmptyChecks(_info.dayStatus) : _buildChecks(_info)
-                      : const Padding(padding: EdgeInsets.all(16), child: Center(child: CircularProgressIndicator(),),)
-                  )
-                ),],),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+      
+            // dat selector
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 33),
+              child: DatePaginatorWidget(
+                  callback: (startDate, endDate){
+                    // if is Daily start and end date are the same
+                    updateCheckInfo(startDate);
+                  }, 
+                  startDateTime: DateTime.now(),
+                  
+                )
             ),
-          ),
-        ],
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+      
+                  const SizedBox(height: 16,),
+      
+                  // hours worked today
+                  Row( children: [ Expanded(
+                    child: CustomCard(
+                      child: _buildTodayWorkTime(_info)
+                    )
+                  ),],),
+                  const SizedBox(height: 16,),
+      
+                  
+      
+                  Row( children: [ Expanded(
+                    child: CustomCard(
+                      child: !isLoading 
+                        ? _info.checks.isEmpty ? _buildEmptyChecks(_info.dayStatus) : _buildChecks(_info)
+                        : const Padding(padding: EdgeInsets.all(16), child: Center(child: CircularProgressIndicator(),),)
+                    )
+                  ),],),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
