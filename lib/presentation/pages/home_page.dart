@@ -33,15 +33,18 @@ class _HomePageState extends State<HomePage> {
   List<Event> _events = []; // todo pasar a bloc
   late bool _isEventsLoading;
 
-
-  Completer _refreshCompleter = Completer();
-
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(InitHome());
-    _isOfficeDaysLoading = true;
-    _isEventsLoading = true;
+    if(!context.read<HomeBloc>().isAllLoaded){
+      context.read<HomeBloc>().add(InitHome(fromMemory: false));
+      _isOfficeDaysLoading = true;
+      _isEventsLoading = true;
+    }else{
+      context.read<HomeBloc>().add(InitHome(fromMemory:true));
+      _isOfficeDaysLoading = false;
+      _isEventsLoading = false;
+    }
   }
 
   @override
@@ -56,8 +59,8 @@ class _HomePageState extends State<HomePage> {
                 _isEventsLoading = true;
                 _isOfficeDaysLoading = true;
               });
-              context.read<HomeBloc>().add(InitHome());
-              context.read<SesameBloc>().add(InitSesame());
+              context.read<HomeBloc>().add(InitHome(fromMemory: false));
+              context.read<SesameBloc>().add(InitSesame(fromMemory: false));
               return Future(() => null);
             },
             child: SingleChildScrollView(

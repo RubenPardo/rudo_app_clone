@@ -12,9 +12,12 @@ class Link extends SesameEvent{
 
 class InitSesame extends SesameEvent{
   
+  final bool fromMemory;
+
+  InitSesame({required this.fromMemory});
   
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [fromMemory];
 
 }
 

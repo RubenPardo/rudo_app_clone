@@ -5,6 +5,7 @@ import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_state.dart';
+import 'package:rudo_app_clone/presentation/pages/home_menu_page.dart';
 import 'package:rudo_app_clone/presentation/pages/home_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
@@ -33,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             print(state.message);
           }else if(state is Loged){
             Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage(userData: state.user),));
+              context, MaterialPageRoute(builder: (context) => HomeMenuPage(userData: state.user),));
 
             
           }

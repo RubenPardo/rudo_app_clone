@@ -11,30 +11,39 @@ import 'package:rudo_app_clone/presentation/bloc/home/home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent,HomeState>{
   
-
+  bool isAllLoaded = false;
+  late List<OfficeDay> _officeDays;
+  late List<Event> _events;
   
   HomeBloc() : super (InitState()){
     
   
     on<InitHome>( //----------------------------------
       (event, emit) async{
-        emit(Loading());
-        log('INIT HOME');
-        
-        try{
+       if(!event.fromMemory){
+          emit(Loading());
+          log('INIT HOME');
           
-          List<OfficeDay> officeDays = await GetOfficeDaysUseCase().call();
-          emit(LoadedOfficeDays(officeDays:officeDays));
+          try{
+            
+            _officeDays = await GetOfficeDaysUseCase().call();
+            emit(LoadedOfficeDays(officeDays: _officeDays));
 
 
-          List<Event> events = await GetUpcomingEventsUseCase().call();
-          log(events.first.eventId);
-          emit(LoadedEvents(events:events));
-          
+            _events = await GetUpcomingEventsUseCase().call();
+            emit(LoadedEvents(events:_events));
 
-        }catch(e){
-          log("ERROR: $e");
-          emit(Error("Error inseperado al obtner la información")); // ----- return error
+            isAllLoaded = true;
+            
+
+          }catch(e){
+            log("ERROR: $e");
+            emit(Error("Error inseperado al obtner la información")); // ----- return error
+          }
+        }else{
+          emit(LoadedOfficeDays(officeDays:_officeDays));
+          emit(LoadedEvents(events:_events));
+          isAllLoaded = true;
         }
         
         

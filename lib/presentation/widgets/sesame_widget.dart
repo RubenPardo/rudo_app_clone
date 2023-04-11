@@ -39,16 +39,6 @@ class _SesameWidgetState extends State<SesameWidget> {
   bool _formError = false;
   bool _sesameLoading = false;
 
-  /// atributes to control the working timer 
-  Timer? workingTimer;
-  Duration duration = const Duration();
-  String workingTime = '00:00';
-
-  /// atributes to control the pause timer 
-  Timer? pauseTimer;
-  Duration durationPause = const Duration();
-  String pauseTime = '00:00';
-
   @override
   void initState() {
     super.initState();
@@ -57,16 +47,9 @@ class _SesameWidgetState extends State<SesameWidget> {
     // if false means it is not linked
     if(widget.userData.isSesameOk ?? false){
       // seaseme linked, init
-      context.read<SesameBloc>().add(InitSesame());
+      context.read<SesameBloc>().add(InitSesame(fromMemory: context.read<SesameBloc>().checkInfo!=null));
+      
     }
-  }
-
-  @override
-  void dispose() {
-    if(workingTimer!=null){
-      workingTimer!.cancel();
-    }
-    super.dispose();
   }
 
   @override
@@ -99,16 +82,6 @@ class _SesameWidgetState extends State<SesameWidget> {
           });
         }
 
-        if(state is Loaded){
-          CheckInfo info = context.read<SesameBloc>().checkInfo!;
-          // init the working or pause timer
-          if(info.getLastStatus() == CheckType.checkIn || info.getLastStatus() == CheckType.pause){
-
-            _initTimer(info);
-          }
-          // ------------
-        
-        }
 
         if(state is Error){
           log(state.message);
@@ -119,63 +92,6 @@ class _SesameWidgetState extends State<SesameWidget> {
         }
       },
     );
-  }
-
-
-
-  /// start a timer of working time or paused time
-  void _initTimer(CheckInfo info){
-
-    
-
-    if(info.lastCheck.status == CheckType.checkIn){
-      setState(() {
-        duration = info.getDurationLastCheck();
-        workingTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
-      });
-      // is working
-      // pause if possible the two timers
-      if(pauseTimer!=null && pauseTimer!.isActive){
-        pauseTimer!.cancel();
-      }
-
-      if(workingTimer!=null && workingTimer!.isActive){
-        workingTimer!.cancel();
-      }
-      // init the work timer
-      workingTimer = Timer.periodic(const Duration(seconds: 30), (timer) { 
-          setState(() {
-            duration = duration + const Duration(seconds: 30);
-            workingTime = duration.toStringHoursMinutes();
-          });
-      });
-    }else{
-      
-      setState(() {
-        duration = info.getDurationLastCheck();
-        pauseTime =  duration.toStringHoursMinutes();
-      });
-      // is pause
-      // pause if possible the two timers
-      if(pauseTimer!=null && pauseTimer!.isActive){
-        pauseTimer!.cancel();
-      }
-
-      if(workingTimer!=null && workingTimer!.isActive){
-        workingTimer!.cancel();
-      }
-
-      // init the pause timer
-      pauseTimer = Timer.periodic(const Duration(seconds: 30), (timer) { 
-          setState(() {
-            duration = duration + const Duration(seconds: 30);
-            pauseTime = '${duration.toString().split(':')[0]}:${duration.toString().split(':')[1]}';
-          });
-      });
-    }
-
-     
-
   }
 
   /// builded when the user does have the sesame linked
@@ -199,16 +115,24 @@ class _SesameWidgetState extends State<SesameWidget> {
   Widget _buildTitleSesame(CheckInfo info){
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimeRecordPage(checkInfo: info,workingTime:workingTime),));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimeRecordPage(checkInfo: info,workingTime:context.read<SesameBloc>().workingTime),));
       },
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          info.getLastStatus() != CheckType.checkout
-                ? Text('Llevas ${info.getLastStatus() == CheckType.checkIn ? '${workingTime}h trabajando' : '${pauseTime}h de pausa'}'
-                    ,style: CustomTextStyles.title3,) // ---> Llevas xx:xxh trabajando / de pausa
-                : const Text('Estás out de la oficina'),
+          info.getLastStatus() != CheckType.checkout 
+            ? StreamBuilder(
+              stream: context.read<SesameBloc>().timerStream,
+              builder: (context, snapshot) {
+                String time = snapshot.data ?? '';
+                return Text('Llevas ${info.getLastStatus() == CheckType.checkIn 
+                        ? '${time}h trabajando' 
+                        : '${time}h de pausa'}'
+                    ,style: CustomTextStyles.title3,); // ---> Llevas xx:xxh trabajando / de pausa
+                
+            },)
+          : const Text('Estás out de la oficina'),
           const Icon(Icons.arrow_forward_ios, size: 12,color: AppColors.hintColor,),
         ],
       ),
