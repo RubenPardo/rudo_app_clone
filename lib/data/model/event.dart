@@ -1,14 +1,12 @@
 
 
-import 'dart:developer';
-
 import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 
 class Event {
     final String eventId;
     final String title;
-    final String imageUrl;
+    final String? imageUrl;
     final String text;
     final String description;
     final String user;
@@ -37,7 +35,7 @@ class Event {
     return Event(
       eventId: json['event_id'], 
       title: json['title'], 
-      imageUrl: json['image'] ?? '', 
+      imageUrl: json['image'], 
       text: json['text'], 
       description: json['description'] ?? '', 
       user: json['user'], 
@@ -49,6 +47,8 @@ class Event {
     
   
     }
+
+    bool get haveImage => imageUrl!=null;
 
 }
 

@@ -29,3 +29,11 @@ class LoadedContent extends HomeState{
   @override
   List<Object?> get props => [events, officeDays];
 }
+
+class EventUpdated extends HomeState{
+  final Event newEvent;
+  EventUpdated({required this.newEvent});
+  
+  @override
+  List<Object?> get props => [newEvent];
+}

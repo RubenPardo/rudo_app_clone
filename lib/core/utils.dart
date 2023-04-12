@@ -81,6 +81,12 @@ extension DateHelpers on DateTime {
     return '${days[weekday-1]} $day de ${months[month-1]}';
   }
 
+  String toStringDataNameDayMonthAbreviated(){
+    List months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    List days = ['Lun','Mar','Mie','Jue','Vie',"Sab","Dom"];
+    return '${days[weekday-1]}, $day ${months[month-1]}';
+  }
+
   // return a string like 'DD-DD Jun 2022'
   String toStringHisWeek(){
     List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];

@@ -226,6 +226,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
       title: const Text('Registro horario',style: CustomTextStyles.title2,),
       elevation: 0,
       centerTitle: true,
+      leading:  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop(),),
       backgroundColor: AppColors.backgroundColorScaffold,
       iconTheme: const IconThemeData(color: AppColors.fuchsia),
     );

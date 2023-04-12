@@ -54,21 +54,26 @@ class _HomePageState extends State<HomePage> {
               context.read<SesameBloc>().add(InitSesame(fromMemory: false));
               return Future(() => null);
             },
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
-                child: Column(
-                  children: [
-                    _name(),
-                    const SizedBox(height: 16,),
-                    _sesame(size),
-                    _buildOfficeDays(size,state is LoadedContent ? state.officeDays : null),
-                    _highlightedEvents(),
-                    /// 
-                  ],
-                ),
-              ),
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
+                    child: Column(
+                      children: [
+                        _name(),
+                        const SizedBox(height: 16,),
+                        _sesame(size),
+                        _buildOfficeDays(size,state is LoadedContent ? state.officeDays : null),
+                        _highlightedEvents(),
+                        /// 
+                      ],
+                    ),
+                  ),
+                )
+                
+              ]
+              
             ),
           );
         },

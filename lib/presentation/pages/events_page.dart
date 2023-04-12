@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/styles.dart';
@@ -5,6 +7,7 @@ import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:rudo_app_clone/presentation/pages/event_details_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/event_widget.dart';
 
@@ -53,10 +56,6 @@ class _EventsPageState extends State<EventsPage> {
   }
   // build a list events separated by date
   Widget _buildEventList(List<Event> events) {
-    
-    if(events.isEmpty){
-      
-    }
 
      List<List<Event>> eventsGroupByDate = events.groupListsBy((element) => element.start).values.toList();
 
@@ -70,6 +69,7 @@ class _EventsPageState extends State<EventsPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 16,),
               Text(eventsGroupByDate[index][0].start.toStringDataNameDayMonth(),style: CustomTextStyles.title2,),
               const SizedBox(height: 12,),
               ListView.builder(
@@ -78,7 +78,10 @@ class _EventsPageState extends State<EventsPage> {
                 shrinkWrap: true,
                 itemCount: eventsGroupByDate[index].length,
                 itemBuilder: (context, indexEvent) {
-                  return CustomCard(child: EventWidget(event: eventsGroupByDate[index][indexEvent]));
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailPage(event: eventsGroupByDate[index][indexEvent],),)),
+                    child: CustomCard(child: EventWidget(event: eventsGroupByDate[index][indexEvent])),
+                  );
                 },
               )
             ],
