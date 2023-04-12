@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/presentation/bloc/alerts/alert_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/alerts/alert_event.dart';
+import 'package:rudo_app_clone/presentation/bloc/alerts/alert_state.dart';
+import 'package:rudo_app_clone/presentation/pages/alert_page.dart';
 import 'package:rudo_app_clone/presentation/pages/events_page.dart';
 import 'package:rudo_app_clone/presentation/pages/home_page.dart';
 
@@ -18,13 +23,19 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AlertBloc>().add(InitAlerts(fromMemory: false));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       body: <Widget>[
         HomePage(userData: widget.userData),
-        EventsPage(),
-        Center(child: Text('Notifiacions'),),
+        const EventsPage(),
+        const AlertPage(),
 
       ][_currentIndex],
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -41,12 +52,36 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
         _currentIndex = newIndex;
       }),
       currentIndex: _currentIndex,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.calendar_month),label: 'Calendar'),
-        BottomNavigationBarItem(icon: Icon(Icons.notifications),label: 'Notification'),
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        const BottomNavigationBarItem(icon: Icon(Icons.calendar_month),label: 'Calendar'),
+        _buildBottomNotificationItem(),
       ],
 
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNotificationItem(){
+    return BottomNavigationBarItem( 
+      label: 'Notification',
+      icon: BlocConsumer<AlertBloc,AlertState>(
+        builder: (context, state) {
+          return Stack(
+            children: <Widget>[
+              const Icon(Icons.notifications),
+              context.read<AlertBloc>().thereIsSomeAlertNotReaded 
+              ? const Positioned(  // draw a red marble
+                  top: 0.0,
+                  right: 0.0,
+                  child:  Icon(Icons.brightness_1, size: 8.0, 
+                    color: Colors.redAccent),
+                )
+              : const SizedBox()
+              ]
+            );
+        }, listener: (context, state) {
+          
+        },)
     );
   }
 

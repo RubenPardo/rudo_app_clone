@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rudo_app_clone/core/constants.dart';
 import 'package:rudo_app_clone/core/request.dart';
+import 'package:rudo_app_clone/data/model/alert.dart';
 import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/google_response_status.dart';
 import 'package:rudo_app_clone/data/model/location.dart';
@@ -190,6 +191,15 @@ class RudoApiService{
       });
     if(res.statusCode == 200){
        return Check.fromJson(res.data['data']['check']);
+    }else{
+      throw Exception("Error en apiService updateEventStatus. StatusCode: ${res.statusCode} Data: ${res.data}");
+    }
+  }
+
+  Future<List<Alert>> getAlerts() async {
+    var res = await Request.instance.get("posts/notifications");
+    if(res.statusCode == 200){
+       return [Alert.dummy(false),Alert.dummy(true),Alert.dummy(true)];// (res.data as List).map<Alert>((rawAlert) => Alert.fromJson(rawAlert)).toList();
     }else{
       throw Exception("Error en apiService updateEventStatus. StatusCode: ${res.statusCode} Data: ${res.data}");
     }

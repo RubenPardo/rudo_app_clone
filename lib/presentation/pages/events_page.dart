@@ -78,6 +78,7 @@ class _EventsPageState extends State<EventsPage> {
                 shrinkWrap: true,
                 itemCount: eventsGroupByDate[index].length,
                 itemBuilder: (context, indexEvent) {
+                  log(eventsGroupByDate[index][indexEvent].eventId);
                   return GestureDetector(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailPage(event: eventsGroupByDate[index][indexEvent],),)),
                     child: CustomCard(child: EventWidget(event: eventsGroupByDate[index][indexEvent])),
