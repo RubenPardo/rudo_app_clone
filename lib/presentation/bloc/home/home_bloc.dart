@@ -27,11 +27,8 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
           try{
             
             _officeDays = await GetOfficeDaysUseCase().call();
-            emit(LoadedOfficeDays(officeDays: _officeDays));
-
-
             _events = await GetUpcomingEventsUseCase().call();
-            emit(LoadedEvents(events:_events));
+            emit(LoadedContent(officeDays: _officeDays, events: _events));
 
             isAllLoaded = true;
             
@@ -41,8 +38,7 @@ class HomeBloc extends Bloc<HomeEvent,HomeState>{
             emit(Error("Error inseperado al obtner la información")); // ----- return error
           }
         }else{
-          emit(LoadedOfficeDays(officeDays:_officeDays));
-          emit(LoadedEvents(events:_events));
+          emit(LoadedContent(officeDays: _officeDays, events: _events));
           isAllLoaded = true;
         }
         

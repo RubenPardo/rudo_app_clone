@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/styles.dart';
-import 'package:rudo_app_clone/data/model/event.dart';
 import 'package:rudo_app_clone/data/model/office_day.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:rudo_app_clone/presentation/bloc/home/home_state.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_event.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
-import 'package:rudo_app_clone/presentation/widgets/event_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/office_days_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/sesame_widget.dart';
@@ -27,11 +25,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-
-  List<OfficeDay> _officeDays = [];
   late bool _isOfficeDaysLoading;
-  List<Event> _events = []; // todo pasar a bloc
-  late bool _isEventsLoading;
+
 
   @override
   void initState() {
@@ -39,24 +34,20 @@ class _HomePageState extends State<HomePage> {
     if(!context.read<HomeBloc>().isAllLoaded){
       context.read<HomeBloc>().add(InitHome(fromMemory: false));
       _isOfficeDaysLoading = true;
-      _isEventsLoading = true;
     }else{
       context.read<HomeBloc>().add(InitHome(fromMemory:true));
       _isOfficeDaysLoading = false;
-      _isEventsLoading = false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: BlocConsumer<HomeBloc,HomeState>(
+    return BlocConsumer<HomeBloc,HomeState>(
         builder: (context, state) {
           return RefreshIndicator(
             onRefresh: () {
               setState(() {
-                _isEventsLoading = true;
                 _isOfficeDaysLoading = true;
               });
               context.read<HomeBloc>().add(InitHome(fromMemory: false));
@@ -72,8 +63,8 @@ class _HomePageState extends State<HomePage> {
                     _name(),
                     const SizedBox(height: 16,),
                     _sesame(size),
-                    _buildOfficeDays(size),
-                    _nextEvents(),
+                    _buildOfficeDays(size,state is LoadedContent ? state.officeDays : null),
+                    _highlightedEvents(),
                     /// 
                   ],
                 ),
@@ -82,19 +73,12 @@ class _HomePageState extends State<HomePage> {
           );
         },
         listener: (context, state) {
-          if(state is LoadedOfficeDays){
+          if(state is LoadedContent){
             setState(() {
               _isOfficeDaysLoading = false;
-              _officeDays = state.officeDays;
-            });
-          }else if(state is LoadedEvents){
-            setState(() {
-              _isEventsLoading = false;
-              _events = state.events;
             });
           }
         },
-      ),
     );
   }
 
@@ -116,7 +100,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// return de card section with the content realtionated with sesame
-  Widget _buildOfficeDays(Size size){
+  Widget _buildOfficeDays(Size size, List<OfficeDay>?officeDays){
     return CustomCard(
       child: SizedBox(
         width: size.width,
@@ -125,7 +109,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               const Text('Estos son los días que vas a venir a la oficina:',style: CustomTextStyles.title3,),
               const SizedBox(height: 8,),
-              _isOfficeDaysLoading ? const Center(child: CircularProgressIndicator(),): OfficeDaysWidget(officeDays: _officeDays),
+              _isOfficeDaysLoading ? const Center(child: CircularProgressIndicator(),): OfficeDaysWidget(officeDays: officeDays!),
             ],
           ),
       ),
@@ -133,25 +117,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   ///
-  Widget _nextEvents(){
+  Widget _highlightedEvents(){
     return CustomCard(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Próximos eventos',style: CustomTextStyles.title1,),
+            const Text('Eventos destacados',style: CustomTextStyles.title1,),
             const SizedBox(height: 8,),
-            _isEventsLoading 
-              ? const SizedBox(height: 100,child: Center(child: CircularProgressIndicator(),),)
-              : ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _events.length,
-                itemBuilder: (context, index) => 
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: CustomCard(elevation:3,child: EventWidget(event:_events[index])),),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(top:16,bottom: 20),
+              child: Center(
+                  child: Image.asset(
+                    'assets/images/empty_events.png',
+                    width: 150,
+                  ),
+                ),
+            ),
+            const Center(child: Text('El party manager está trabajando en ello ;)',style: CustomTextStyles.bodyMedium,),)
           ],
         ),
     );

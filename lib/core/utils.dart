@@ -24,7 +24,13 @@ class Utils{
 
   static String getRangeDates(DateTime start, DateTime end) {
     final f =  DateFormat('hh:mm');
-    return '${f.format(start)} - ${f.format(end)}';
+    String d1 = '${f.format(start)}h';
+    String d2 = '${f.format(end)}h';
+    if(d1 == d2){
+      return d1;
+    }else{
+      return '$d1 - $d2';
+    }
 
   }
 

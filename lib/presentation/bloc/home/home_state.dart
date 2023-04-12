@@ -21,18 +21,11 @@ class Error extends HomeState{
   List<Object?> get props => [message];
 }
 
-class LoadedOfficeDays extends HomeState{
-  final List<OfficeDay> officeDays;
-  LoadedOfficeDays({required this.officeDays});
-  
-  @override
-  List<Object?> get props => [officeDays];
-}
-
-class LoadedEvents extends HomeState{
+class LoadedContent extends HomeState{
   final List<Event> events;
-  LoadedEvents({required this.events});
+  final List<OfficeDay> officeDays;
+  LoadedContent({required this.events, required this.officeDays});
   
   @override
-  List<Object?> get props => [events];
+  List<Object?> get props => [events, officeDays];
 }

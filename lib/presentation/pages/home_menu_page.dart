@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/presentation/pages/events_page.dart';
 import 'package:rudo_app_clone/presentation/pages/home_page.dart';
 
 class HomeMenuPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
 
       body: <Widget>[
         HomePage(userData: widget.userData),
-        Center(child: Text('Calendar'),),
+        EventsPage(),
         Center(child: Text('Notifiacions'),),
 
       ][_currentIndex],

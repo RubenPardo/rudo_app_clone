@@ -21,6 +21,7 @@ dependencies:
   reactive_forms: ^14.1.0
   geolocator: ^9.0.2
   rxdart: ^0.27.7
+  collection: ^1.17.0
  
 
 dev_dependencies:
@@ -37,3 +38,10 @@ flutter:
     - 'assets/images/warning.png'
     - 'assets/images/festivity.png'
     - 'assets/images/medical.png'
+    - 'assets/images/empty_events.png'
+    - 'assets/images/empty_alerts.png'
+    - 'assets/images/green_check.png'
+    - 'assets/images/red_calendar.png'
+    - 'assets/images/red_clock.png'
+    - 'assets/images/red_cross.png'
+    - 'assets/images/yellow_interrogant.png'
