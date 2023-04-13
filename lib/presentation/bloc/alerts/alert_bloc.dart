@@ -19,14 +19,18 @@ class AlertBloc extends Bloc<AlertEvent,AlertState>{
   AlertBloc() : super (InitState()){
 
     on<InitAlerts>((event, emit) async {
-      if(!event.fromMemory){
-        emit(Loading());
-        _alerts = await GetAlertsUseCase().call();
-        emit(Loaded(alerts: _alerts));
-        isAllLoaded = true;
-      }else{
-        emit(Loading());
-        emit(Loaded(alerts: _alerts));
+      try{
+        if(!event.fromMemory){
+          emit(Loading());
+          _alerts = await GetAlertsUseCase().call();
+          emit(Loaded(alerts: _alerts));
+          isAllLoaded = true;
+        }else{
+          emit(Loading());
+          emit(Loaded(alerts: _alerts));
+        }
+      }catch(e){
+        emit(Error(message: 'Error al iniciar las alertas'));
       }
     },);
 

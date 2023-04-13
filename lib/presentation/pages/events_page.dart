@@ -9,7 +9,9 @@ import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:rudo_app_clone/presentation/pages/event_details_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
+import 'package:rudo_app_clone/presentation/widgets/error_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/event_widget.dart';
+import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 import '../bloc/home/home_event.dart';
 import '../bloc/home/home_state.dart';
@@ -43,7 +45,7 @@ class _EventsPageState extends State<EventsPage> {
                     ?  state.events.isEmpty ?_emptyEvents() :_buildEventList(state.events)
                     : state is Loading 
                       ? const Center(child: CircularProgressIndicator(),) 
-                      : _buildErrorEvents(),
+                      : ContentErrorWidget(callback:(){context.read<HomeBloc>().add(InitHome(fromMemory: false));}),
                     
                 ),
               ),
@@ -78,7 +80,6 @@ class _EventsPageState extends State<EventsPage> {
                 shrinkWrap: true,
                 itemCount: eventsGroupByDate[index].length,
                 itemBuilder: (context, indexEvent) {
-                  log(eventsGroupByDate[index][indexEvent].eventId);
                   return GestureDetector(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => EventDetailPage(event: eventsGroupByDate[index][indexEvent],),)),
                     child: CustomCard(child: EventWidget(event: eventsGroupByDate[index][indexEvent])),
@@ -111,20 +112,25 @@ class _EventsPageState extends State<EventsPage> {
   }
 
   Widget _buildErrorEvents(){
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Text('Parece que ha ocurrido error, vuelve a intentarlo más tarde.'),
-                const SizedBox(height: 20,),
-                Image.asset('assets/images/empty_alerts.png',height: 84,)
-            ]),
-          )
-      ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 55),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(padding: const EdgeInsets.only(left: 50),child: Image.asset('assets/images/error.png',),),
+            const SizedBox(height: 40,),
+            const Text('Algo no funciona',style: CustomTextStyles.titleAppbar,),
+            const SizedBox(height: 12,),
+            const Text('Estamos trabajando para solucionar el problema. Revisa tu conexión a internet y prueba otra vez.',style: CustomTextStyles.bodySmall,textAlign: TextAlign.center,),
+            const SizedBox(height: 24,),
+            PrimaryButton(onPressed: (){
+              context.read<HomeBloc>().add(InitHome(fromMemory: false));
+            }, text: 'VOLVER A INTENTAR')
+      
+          ]
+        ),
+      ),
     );
   }
 

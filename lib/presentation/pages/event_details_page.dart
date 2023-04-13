@@ -46,32 +46,34 @@ class _EventDetailPageState extends State<EventDetailPage> {
           backgroundColor: Colors.white,
           body: BlocConsumer<HomeBloc,HomeState>(
             builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildEventTitle(),
-                    const SizedBox(height: 16,),
-                    _buildEventDate(),
-                    const SizedBox(height: 23,),
-                    _buildDescription(),
-                    const SizedBox(height: 24,),
-                    _buildAssistanceButtons(),
-                    const SizedBox(height: 24,),
-                    _eventTmp.haveImage ? 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*0.9,
-                          height: MediaQuery.of(context).size.height*0.24,
-                          child: Center(child: Image.network(_eventTmp.imageUrl!,fit: BoxFit.cover,)),
-                        )
-                      ,const SizedBox(height: 24,)],) : const SizedBox(),
-                    _buildConfirmedAttendees()
-                    
-                  ],
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildEventTitle(),
+                      const SizedBox(height: 16,),
+                      _buildEventDate(),
+                      const SizedBox(height: 23,),
+                      _buildDescription(),
+                      const SizedBox(height: 24,),
+                      _buildAssistanceButtons(),
+                      const SizedBox(height: 24,),
+                      _eventTmp.haveImage ? 
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*0.9,
+                            height: MediaQuery.of(context).size.height*0.24,
+                            child: Center(child: Image.network(_eventTmp.imageUrl!,fit: BoxFit.cover,)),
+                          )
+                        ,const SizedBox(height: 24,)],) : const SizedBox(),
+                      _buildConfirmedAttendees()
+                      
+                    ],
+                  ),
                 ),
               );
             },
@@ -270,7 +272,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
 
   PreferredSizeWidget _buildAppBar(){
     return AppBar(
-      title: const Text('Detalle Evento',style: CustomTextStyles.title2,),
+      title: const Text('Detalle Evento',style: CustomTextStyles.titleAppbar,),
       elevation: 0,
       backgroundColor: Colors.white,
       centerTitle: true,

@@ -10,6 +10,7 @@ import 'package:rudo_app_clone/presentation/bloc/alerts/alert_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/alerts/alert_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/alerts/alert_state.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
+import 'package:rudo_app_clone/presentation/widgets/error_widget.dart';
 
 import '../../app/styles.dart';
 
@@ -55,7 +56,7 @@ class _AlertPageState extends State<AlertPage> {
                       ?  state.alerts.isEmpty ?_emptyAlerts() :_buildAlertList(state.alerts)
                       : state is Loading 
                         ? const Center(child: CircularProgressIndicator(),) 
-                        : _buildErrorAlert(),
+                        : ContentErrorWidget(callback:(){context.read<AlertBloc>().add(InitAlerts(fromMemory: false));}),
                       
                   ),
                 ),
