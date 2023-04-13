@@ -187,15 +187,12 @@ class _SesameWidgetState extends State<SesameWidget> {
             const Text('Introduce la contraseña para empezar',style: CustomTextStyles.title3,),
             const SizedBox(height: 8,),
             PrimaryButton(onPressed: (){
-              showModalBottomSheet(context: context, builder: (context) {
-                return _buildLoginSesame(size);
+              showModalBottomSheet(
+                isScrollControlled: true,
+                
+                context: context, builder: (context) {
+                return Container(child: Wrap(children: [ _buildLoginSesame(size)]));
               },);
-              // TODO quitar ,,, pruebas
-              /*setState(() {
-                _isEventsLoading = true;
-                _isOfficeDaysLoading = true;
-              });
-              context.read<HomeBloc>().add(InitHome());*/
             }, text: 'Vincular Sesame')
           ],
         );
@@ -235,67 +232,65 @@ class _SesameWidgetState extends State<SesameWidget> {
             ),
             // form --------------------
             const SizedBox(height: 16,),
-            Expanded(
-              child: ReactiveFormBuilder(
-                  form: buildForm, 
-                  builder: (context, formGroup, child) {
-                    return Padding(
-                      padding: padding,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // ----------------------------------- password
-                          ReactiveTextField<String>(
-                            formControlName: 'password',
-                            obscureText: !_passwordVisible,
-                            validationMessages: {
-                              ValidationMessage.required: (_)=> 'The password must not be empty',
-                              ValidationMessage.minLength: (_)=> 'The password must be at least 6 characters',
-                              ValidationMessage.pattern:(_)=> 'The password must contain at least one digit and one character'
-                            },
-                            textInputAction: TextInputAction.done,
-                            decoration:  InputDecoration(
-                              labelText: 'Contraseña sesame',
-                              errorStyle: CustomTextStyles.textHint.copyWith(color: AppColors.red),
-                              errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.red),borderRadius: BorderRadius.all(Radius.circular(16))),
-                              errorMaxLines: 2,
-                              hintStyle: !_formError ? CustomTextStyles.textHint : CustomTextStyles.textHint.copyWith(color: AppColors.red),
-                              fillColor:  Colors.white,
-                              filled: true,
-                              border: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.hintColor),borderRadius: BorderRadius.all(Radius.circular(16))),
-                              suffixIconColor: AppColors.hintColor,
-                              suffixIcon: IconButton(
-                                icon: Icon(_passwordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined),
-                                onPressed: () {
-                                  setState(() { _passwordVisible = !_passwordVisible;});
-                                },
-                              )
-                            ),
+            ReactiveFormBuilder(
+                form: buildForm, 
+                builder: (context, formGroup, child) {
+                  return Padding(
+                    padding: padding,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ----------------------------------- password
+                        ReactiveTextField<String>(
+                          formControlName: 'password',
+                          obscureText: !_passwordVisible,
+                          validationMessages: {
+                            ValidationMessage.required: (_)=> 'The password must not be empty',
+                            ValidationMessage.minLength: (_)=> 'The password must be at least 6 characters',
+                            ValidationMessage.pattern:(_)=> 'The password must contain at least one digit and one character'
+                          },
+                          textInputAction: TextInputAction.done,
+                          decoration:  InputDecoration(
+                            labelText: 'Contraseña sesame',
+                            errorStyle: CustomTextStyles.textHint.copyWith(color: AppColors.red),
+                            errorBorder: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.red),borderRadius: BorderRadius.all(Radius.circular(16))),
+                            errorMaxLines: 2,
+                            hintStyle: !_formError ? CustomTextStyles.textHint : CustomTextStyles.textHint.copyWith(color: AppColors.red),
+                            fillColor:  Colors.white,
+                            filled: true,
+                            border: const OutlineInputBorder(borderSide: BorderSide(color: AppColors.hintColor),borderRadius: BorderRadius.all(Radius.circular(16))),
+                            suffixIconColor: AppColors.hintColor,
+                            suffixIcon: IconButton(
+                              icon: Icon(_passwordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                              onPressed: () {
+                                setState(() { _passwordVisible = !_passwordVisible;});
+                              },
+                            )
                           ),
-                          PrimaryButton(onPressed: (){
-                            
-                            //_removeFocus(context);
-                            if(formGroup.valid){
-                              setState(() => _formError = false,);
-                              formGroup.markAllAsTouched();
-                              //context.read<LoginBloc>().add(LogIn(formGroup.value));
-                            }else {
-                              formGroup.markAllAsTouched();
-                              setState(() => _formError = true,);
-                    
-                            }
-                          }, text: 'Guardar'),
-                          // boton login
+                        ),
+                        const SizedBox(height: 96,),
+                        PrimaryButton(onPressed: (){
                           
-                        ],
-                      ),
-                    );
-                  },
-                ),
-            ),
-            const SizedBox(height: 16,),
+                          //_removeFocus(context);
+                          if(formGroup.valid){
+                            setState(() => _formError = false,);
+                            formGroup.markAllAsTouched();
+                            //context.read<LoginBloc>().add(LogIn(formGroup.value));
+                          }else {
+                            formGroup.markAllAsTouched();
+                            setState(() => _formError = true,);
+                  
+                          }
+                        }, text: 'Guardar'),
+                        // boton login
+                        
+                      ],
+                    ),
+                  );
+                },
+              ),
+            const SizedBox(height: 8,),
 
           ],
         ),

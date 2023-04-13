@@ -55,6 +55,12 @@ class CustomTextStyles {
     fontSize: 14
   );
 
+  static const TextStyle titleAppbar = TextStyle(
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+    fontSize: 17
+  );
+
   static const TextStyle textHint = TextStyle(
     fontWeight: FontWeight.w400,
     color: AppColors.hintColor,

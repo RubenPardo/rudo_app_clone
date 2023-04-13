@@ -75,27 +75,33 @@ extension DateHelpers on DateTime {
   }
 
   /// format a date time intp a string {Vie. 31 de Mar.}
+  String toStringDataNameDayMonthAbv(){
+    List months = ['En.','Feb.','Mar.','Abr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dic.'];
+    List days = ['Lun.','Mar.','Mie.','Jue.','Vie.',"Sab.","Dom."];
+    return '${days[weekday-1]} $day de ${months[month-1]}';
+  }
+  /// format a date time intp a string {Vie. 31 de marzo}
   String toStringDataNameDayMonth(){
-    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    List months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
     List days = ['Lun.','Mar.','Mie.','Jue.','Vie.',"Sab.","Dom."];
     return '${days[weekday-1]} $day de ${months[month-1]}';
   }
 
   String toStringDataNameDayMonthAbreviated(){
-    List months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    List months = ['En','Feb','Mar','Abr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dic'];
     List days = ['Lun','Mar','Mie','Jue','Vie',"Sab","Dom"];
     return '${days[weekday-1]}, $day ${months[month-1]}';
   }
 
   // return a string like 'DD-DD Jun 2022'
   String toStringHisWeek(){
-    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    List months = ['En.','Feb.','Mar.','Abr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dic.'];
     return '${startOfTheWeek().day} - ${endOfTheWeek().day} ${months[month-1]} $year';
   }
 
   // return a string like 'DD-DD Jun 2022'
   String toStringHisMonth(){
-    List months = ['Jan.','Feb.','Mar.','Apr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'];
+    List months = ['En.','Feb.','Mar.','Abr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dic.'];
     return '${months[month-1]} $year';
   }
 

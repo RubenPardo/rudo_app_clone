@@ -23,7 +23,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: AppColors.backgroundColorScaffold,
           useMaterial3: true,
-          
+          fontFamily: 'RaptorV3'
         ),
         home: const LoginPage(),
       ),

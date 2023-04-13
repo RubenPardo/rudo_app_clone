@@ -68,7 +68,7 @@ class _DatePaginatorWidgetState extends State<DatePaginatorWidget> {
           if(_currentDate.isToday()){
             return 'Hoy';
           }
-          return _currentDate.toStringDataNameDayMonth();
+          return _currentDate.toStringDataNameDayMonthAbv();
         }()),style: CustomTextStyles.title2,),
        _currentDate.isToday() 
         ? const SizedBox() : 

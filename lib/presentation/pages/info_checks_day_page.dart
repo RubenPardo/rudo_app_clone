@@ -165,7 +165,7 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
 
   PreferredSizeWidget _buildAppBar(){
     return AppBar(
-      title: const Text('Detalle día',style: CustomTextStyles.title2,),
+      title: const Text('Detalle día',style: CustomTextStyles.titleAppbar,),
       elevation: 0,
       centerTitle: true,
       backgroundColor: AppColors.backgroundColorScaffold,

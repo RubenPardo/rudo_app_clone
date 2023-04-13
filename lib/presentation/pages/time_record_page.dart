@@ -74,7 +74,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children:  [
             
-            Text('Hoy, ${DateTime.now().toStringDataNameDayMonth()}', style: CustomTextStyles.title1NoBold,),
+            Text('Hoy, ${DateTime.now().toStringDataNameDayMonthAbv()}', style: CustomTextStyles.title1NoBold,),
             const SizedBox(height: 16,),
             // inside a row to expand to the max width of the parent column
             Row( children: [ Expanded(
@@ -209,7 +209,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
               text: '${widget.workingTime}h',
               children: const [
                 TextSpan(
-                  text: ' tiempo trabajado',style: CustomTextStyles.bodyMedium)
+                  text: ' tiempo trabajado',style: CustomTextStyles.title2)
               ]
             )
           ),
@@ -223,7 +223,7 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
 
   PreferredSizeWidget _buildAppBar(){
     return AppBar(
-      title: const Text('Registro horario',style: CustomTextStyles.title2,),
+      title: const Text('Registro horario',style: CustomTextStyles.titleAppbar,),
       elevation: 0,
       centerTitle: true,
       leading:  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop(),),

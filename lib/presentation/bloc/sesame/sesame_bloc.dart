@@ -38,7 +38,7 @@ class SesameBloc extends Bloc<SesameEvent,SesameState>{
 
 
      /// start a timer of working time or paused time
-  void _initTimer(CheckInfo info){
+  void initTimer(CheckInfo info){
 
     
 
@@ -104,7 +104,7 @@ class SesameBloc extends Bloc<SesameEvent,SesameState>{
 
           try{
             checkInfo = await GetCheckInfoUseCase().call();
-            _initTimer(checkInfo!);
+            initTimer(checkInfo!);
             emit(Loaded());
           }catch(e){
             emit(Error(e.toString()));
@@ -120,16 +120,17 @@ class SesameBloc extends Bloc<SesameEvent,SesameState>{
         emit(Loading());
 
         try{
-          log('Last status: ${checkInfo!.lastCheck.status}');
-          if(checkInfo!.lastCheck.status == CheckType.pause && event.checkType == CheckType.checkIn){
+          log('CHECK - Last status: ${checkInfo!.lastCheck.status}');
+          log('CHECK - Se envia: ${event.checkType.value}');
+          await CheckInUseCase().call(event.checkType);
+          /*if(checkInfo!.lastCheck.status == CheckType.pause && event.checkType == CheckType.checkIn){
             // deactivate the pause,
-            log('Se envia: ${CheckType.pause.value}');
-            await CheckInUseCase().call(CheckType.pause);
+            log('CHECK - Se envia: ${CheckType.pause.value}');
             await CheckInUseCase().call(CheckType.checkIn);
           }else{
-            log('Se envia: ${event.checkType.value}');
+            log('CHECK - Se envia: ${event.checkType.value}');
             await CheckInUseCase().call(event.checkType);
-          }
+          }*/
           checkInfo = await GetCheckInfoUseCase().call();
           emit(Loaded());
         }catch(e){

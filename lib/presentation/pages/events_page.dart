@@ -32,7 +32,7 @@ class _EventsPageState extends State<EventsPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: 48,),
-              const Center(child: Text('Eventos',style: CustomTextStyles.title2,),),
+              const Center(child: Text('Eventos',style: CustomTextStyles.titleAppbar,),),
               Flexible(
                 child: RefreshIndicator(
                   onRefresh: () {
@@ -60,7 +60,7 @@ class _EventsPageState extends State<EventsPage> {
      List<List<Event>> eventsGroupByDate = events.groupListsBy((element) => element.start).values.toList();
 
      return Padding(
-       padding: const EdgeInsets.symmetric(horizontal: 16),
+       padding: const EdgeInsets.symmetric(horizontal: 8),
        child: ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
@@ -70,7 +70,7 @@ class _EventsPageState extends State<EventsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16,),
-              Text(eventsGroupByDate[index][0].start.toStringDataNameDayMonth(),style: CustomTextStyles.title2,),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 8),child: Text(eventsGroupByDate[index][0].start.toStringDataNameDayMonth(),style: CustomTextStyles.title2.copyWith(fontSize: 20),)),
               const SizedBox(height: 12,),
               ListView.builder(
                 padding: EdgeInsets.zero,

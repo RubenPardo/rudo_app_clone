@@ -59,7 +59,7 @@ class _EventWidgetState extends State<EventWidget> {
               WidgetSpan(
                 alignment: PlaceholderAlignment.baseline,
                 baseline: TextBaseline.alphabetic,
-                child: Text(widget.event.start.toStringDataNameDayMonth(),style: CustomTextStyles.bodySmall),//Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
+                child: Text(widget.event.start.toStringDataNameDayMonthAbv(),style: CustomTextStyles.bodySmall),//Text('Jue. 2 de Jun.',style: CustomTextStyles.bodyMedium,)
               )
             ]
           )

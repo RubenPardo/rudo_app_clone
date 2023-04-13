@@ -43,7 +43,8 @@ class _AlertPageState extends State<AlertPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 48,),
-                const Center(child: Text('Avisos',style: CustomTextStyles.title2,),),
+                const Center(child: Text('Avisos',style: CustomTextStyles.titleAppbar,),),
+                const SizedBox(height: 16,),
                 Flexible(
                   child: RefreshIndicator(
                     onRefresh: () {
@@ -69,6 +70,7 @@ class _AlertPageState extends State<AlertPage> {
 
   Widget _buildAlertList(List<Alert> alerts){
     return ListView.builder(
+      padding: EdgeInsets.zero,
       itemCount: alerts.length,
       itemBuilder: (context, index) {
         return CustomCard(
@@ -78,15 +80,15 @@ class _AlertPageState extends State<AlertPage> {
             children: [
               Row(
                 children: [
-                  Icon(alerts[index].isReaded ? Icons.notifications_none: Icons.notifications),
+                  Icon(alerts[index].isReaded ? Icons.notifications_none: Icons.notifications,size: 24,),
                   const SizedBox(width: 12,), 
-                  Text(alerts[index].title,style: CustomTextStyles.title3,)
+                  Text(alerts[index].title,style: CustomTextStyles.title3.copyWith(fontWeight: FontWeight.w600),)
                ],
               ),
               const SizedBox(height: 8,),
-              Text('${alerts[index].date.toStringDataNameDayMonthAbreviated()} ${alerts[index].date.toStringHourMinute()}h',style: CustomTextStyles.bodySmall,),
+              Text('${alerts[index].date.toStringDataNameDayMonthAbreviated()} ${alerts[index].date.toStringHourMinute()}h',style: CustomTextStyles.bodySmall.copyWith(fontSize: 13),),
               const SizedBox(height: 8,),
-              Text(alerts[index].description,style: CustomTextStyles.bodySmall),
+              Text(alerts[index].description,style: CustomTextStyles.bodySmall.copyWith(fontSize: 14)),
             ],
           )
         );

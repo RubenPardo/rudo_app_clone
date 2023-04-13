@@ -56,19 +56,23 @@ class _HomePageState extends State<HomePage> {
             },
             child: CustomScrollView(
               slivers: [
-                SliverFillRemaining(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
-                    child: Column(
-                      children: [
-                        _name(),
-                        const SizedBox(height: 16,),
-                        _sesame(size),
-                        _buildOfficeDays(size,state is LoadedContent ? state.officeDays : null),
-                        _highlightedEvents(),
-                        /// 
-                      ],
-                    ),
+                SliverList( // to make a growable content and expand to the bottom
+                  delegate: SliverChildListDelegate(
+                    [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40,horizontal: 16),
+                        child: Column(
+                          children: [
+                            _name(),
+                            const SizedBox(height: 16,),
+                            _sesame(size),
+                            _buildOfficeDays(size,state is LoadedContent ? state.officeDays : null),
+                            _highlightedEvents(),
+                            /// 
+                          ],
+                        ),
+                      ),
+                    ]
                   ),
                 )
                 

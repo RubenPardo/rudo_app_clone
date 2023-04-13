@@ -31,6 +31,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true 
+
+  fonts:
+    - family: RaptorV3
+      fonts:
+        - asset: assets/fonts/raptor/RaptorV3Premium-Regular.otf
+        - asset: assets/fonts/raptor/RaptorV3Premium-Bold.otf
+          weight: 700
+        - asset: assets/fonts/raptor/RaptorV3Premium-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/raptor/RaptorV3Premium-Medium.otf
+          weight: 500
+        - asset: assets/fonts/raptor/RaptorV3Premium-Light.otf
+          weight: 400
   
   assets:
     - 'assets/images/ic-google.png'
