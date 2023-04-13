@@ -5,6 +5,7 @@ import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/presentation/pages/faq_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 
@@ -27,7 +28,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 40,),
                 const Text('Perfil',style: CustomTextStyles.titleAppbar,),
                 const SizedBox(height: 16,),
-                ImageProfileUserWidget(userData: userData,width: MediaQuery.of(context).size.width*0.44,isBig:true),
+                _buildImage(context),
                 const SizedBox(height: 16,),
                 Text('${userData.firstName} ${userData.lastName}',style: CustomTextStyles.title1,),
                 const SizedBox(height: 16,),
@@ -49,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 8,),
                  _buildProfileItem('FAQs', Icons.info_outline,
                   () {
-                  
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FAQPage(),));
                 },),
                 const SizedBox(height: 8,),
                  _buildProfileItem('Ajustes',Icons.settings_outlined,
@@ -62,6 +63,19 @@ class ProfilePage extends StatelessWidget {
           )
         ),
       ),
+    );
+  }
+
+  Widget _buildImage(BuildContext context){
+    return Stack(
+      children: [
+        ImageProfileUserWidget(userData: userData,width: MediaQuery.of(context).size.width*0.44,isBig:true),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image.network(userData.rank?.image?.thumbnail ?? '',scale: 2.1,),
+        )
+      ],
     );
   }
 
