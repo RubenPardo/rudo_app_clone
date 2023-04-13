@@ -10,7 +10,7 @@ class UserData {
   Tech? tech;
   bool? isSesameOk;
   Rank? rank;
-  String? joinDate;
+  DateTime? joinDate;
   bool? isTrip;
 
   UserData(
@@ -25,6 +25,15 @@ class UserData {
       this.isTrip});
 
   factory UserData.fromJson(Map<String, dynamic> json) {
+    DateTime? joinDate;
+    if(json['join_date']!=null){
+      // 20-03-2023 -> 2023-03-20
+      var dateSplited = (json['join_date'] as String).split('-');
+      dateSplited = [dateSplited[2],dateSplited[1],dateSplited[0]];
+      String dateWellFomrated = dateSplited.join('-');
+      joinDate = DateTime.parse('$dateWellFomrated 00:00:00');
+    }
+    
     return UserData(
       firstName: json['first_name'],
       lastName: json['last_name'],
@@ -33,7 +42,7 @@ class UserData {
       tech: json['tech'] != null ? Tech.fromJson(json['tech']) : null,
       isSesameOk: json['is_sesame_ok'],
       rank: json['rank'] != null ?  Rank.fromJson(json['rank']) : null,
-      joinDate: json['join_date'],
+      joinDate: joinDate,
       isTrip: json['is_trip'],
     );
   }

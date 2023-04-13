@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/alerts/alert_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/alerts/alert_event.dart';
@@ -9,6 +8,7 @@ import 'package:rudo_app_clone/presentation/bloc/alerts/alert_state.dart';
 import 'package:rudo_app_clone/presentation/pages/alert_page.dart';
 import 'package:rudo_app_clone/presentation/pages/events_page.dart';
 import 'package:rudo_app_clone/presentation/pages/home_page.dart';
+import 'package:rudo_app_clone/presentation/pages/profile_page.dart';
 
 class HomeMenuPage extends StatefulWidget {
   final UserData userData;
@@ -36,6 +36,7 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
         HomePage(userData: widget.userData),
         const EventsPage(),
         const AlertPage(),
+        ProfilePage(userData: widget.userData),
 
       ][_currentIndex],
       bottomNavigationBar: _buildBottomNavigationBar(),
@@ -44,10 +45,13 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
 
   Widget _buildBottomNavigationBar(){
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
       selectedItemColor: Colors.black,
+      unselectedItemColor: AppColors.unselectedIcon,
       showSelectedLabels: false,
       showUnselectedLabels: false,
+
       onTap: (newIndex) => setState(() {
         _currentIndex = newIndex;
       }),
@@ -56,6 +60,7 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
         const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
         const BottomNavigationBarItem(icon: Icon(Icons.calendar_month),label: 'Calendar'),
         _buildBottomNotificationItem(),
+        const BottomNavigationBarItem(icon: Icon(Icons.person),label: 'Profile'),
       ],
 
     );

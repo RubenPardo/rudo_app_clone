@@ -9,6 +9,7 @@ class AppColors{
   static const Color backgroundColorScaffold = Color(0xFFF1F1F1);
   static const Color buttonNoMarked = Color(0xffF9F9F9);
   static const Color hintColor = Color(0xff9D9FA7);
+  static const Color unselectedIcon = Color(0xff9D9FA7);
   static const Color greyLabel = Color(0xff5E6270);
 
 

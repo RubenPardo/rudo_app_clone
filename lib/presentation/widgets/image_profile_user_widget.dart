@@ -10,11 +10,13 @@ class ImageProfileUserWidget extends StatelessWidget {
   const ImageProfileUserWidget({
     super.key,
     required this.userData,  this.width = 46, this.useDeptColor = false,
+    this.isBig = false
   });
 
   final UserData userData;
   final double width;
   final bool useDeptColor;
+  final bool isBig;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,10 @@ class ImageProfileUserWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xff7c94b6),
           image: DecorationImage(
-            image: NetworkImage(userData.image != null ?  userData.image!.thumbnail ??  "" : ""),
+            image: NetworkImage(userData.image != null ?  isBig ? userData.image!.fullsize ??  "" : userData.image!.thumbnail ??  "": ""),
             fit: BoxFit.fill,
           ),
-          borderRadius: const BorderRadius.all( Radius.circular(50.0)),
+          borderRadius: const BorderRadius.all( Radius.circular(100.0)),
           border: Border.all(
             color: getBorderColor(),
             width: 2.0,

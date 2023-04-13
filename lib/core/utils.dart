@@ -74,6 +74,25 @@ extension DateHelpers on DateTime {
     return DateFormat('HH:mm').format(this);
   }
 
+  /// return -> dd/MM/YYYY
+  String toStringSimple(){
+    return DateFormat('dd/MM/yyyy').format(this);
+  }
+
+  // return 'Más de 5 años','Más de 3 años','Más de 1 año','Menos de 1 año'
+  String getStringYearDiference(){
+    double yearDifference = DateTime.now().difference(this).inDays/365;
+    if(yearDifference>5){
+      return 'Más de 5 años';
+    }else if(yearDifference > 3){
+      return 'Más de 3 años';
+    }else if(yearDifference > 1){
+      return 'Más de 1 año';
+    }else{
+      return 'Menos de 1 año';
+    }
+  }
+
   /// format a date time intp a string {Vie. 31 de Mar.}
   String toStringDataNameDayMonthAbv(){
     List months = ['En.','Feb.','Mar.','Abr.','May.','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dic.'];
