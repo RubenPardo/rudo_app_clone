@@ -9,6 +9,7 @@ import 'package:rudo_app_clone/data/model/sesame/check_info.dart';
 import 'package:rudo_app_clone/data/model/sesame/check_type.dart';
 import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
 import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
+import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
@@ -47,7 +48,12 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: CustomAppBar(
+        appBar: AppBar(),
+        title: 'Detalle día',
+        canPop: true,
+        backgroundColor: AppColors.backgroundColorScaffold,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -159,17 +165,6 @@ class _InfoCheckDayPageState extends State<InfoCheckDayPage> {
           Text(timeRange)
         ],
       ),
-    );
-  }
-
-
-  PreferredSizeWidget _buildAppBar(){
-    return AppBar(
-      title: const Text('Detalle día',style: CustomTextStyles.titleAppbar,),
-      elevation: 0,
-      centerTitle: true,
-      backgroundColor: AppColors.backgroundColorScaffold,
-      iconTheme: const IconThemeData(color: AppColors.fuchsia),
     );
   }
 

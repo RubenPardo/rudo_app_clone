@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
+import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 
 class FAQDetailsPage extends StatelessWidget {
@@ -13,7 +14,12 @@ class FAQDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBar(
+        appBar: AppBar(),
+        title: 'Detalles FAQ',
+        canPop: false,
+        backgroundColor: Colors.white,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -32,17 +38,6 @@ class FAQDetailsPage extends StatelessWidget {
           )
         ),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context){
-    return AppBar(
-      title: const Text('Detalle FAQ',style: CustomTextStyles.titleAppbar,),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      centerTitle: true,
-      leading:  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop(),),
-      iconTheme: const IconThemeData(color: AppColors.fuchsia,),
     );
   }
 }

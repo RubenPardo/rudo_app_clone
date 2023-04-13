@@ -11,6 +11,7 @@ import 'package:rudo_app_clone/data/model/sesame/day_status.dart';
 import 'package:rudo_app_clone/data/model/sesame/hour_balance.dart';
 import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/presentation/pages/info_checks_day_page.dart';
+import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/date_paginator.dart';
 
@@ -65,7 +66,12 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: CustomAppBar(
+        appBar: AppBar(),
+        title: 'Registro horario',
+        canPop: true,
+        backgroundColor: AppColors.backgroundColorScaffold,
+      ),
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -218,17 +224,6 @@ class _TimeRecordPageState extends State<TimeRecordPage> {
           const Icon(Icons.arrow_forward_ios, color: AppColors.fuchsia,size: 21,)
         ],
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(){
-    return AppBar(
-      title: const Text('Registro horario',style: CustomTextStyles.titleAppbar,),
-      elevation: 0,
-      centerTitle: true,
-      leading:  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop(),),
-      backgroundColor: AppColors.backgroundColorScaffold,
-      iconTheme: const IconThemeData(color: AppColors.fuchsia),
     );
   }
 

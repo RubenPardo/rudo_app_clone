@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/presentation/pages/faq_detail_page.dart';
+import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 
 class FAQPage extends StatelessWidget {
@@ -13,7 +14,12 @@ class FAQPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBar(
+        appBar: AppBar(),
+        title: 'FAQs',
+        canPop: true,
+        backgroundColor: AppColors.backgroundColorScaffold,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

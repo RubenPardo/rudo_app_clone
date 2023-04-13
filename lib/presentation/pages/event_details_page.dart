@@ -10,6 +10,7 @@ import 'package:rudo_app_clone/domain/use_cases/update_event_use_case.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_state.dart';
+import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
@@ -42,7 +43,12 @@ class _EventDetailPageState extends State<EventDetailPage> {
     return Stack(
       children: [
         Scaffold(
-          appBar: _buildAppBar(),
+          appBar: CustomAppBar(
+            appBar: AppBar(),
+            title: 'Detalle Evento',
+            canPop: true,
+            backgroundColor: Colors.white,
+          ),
           backgroundColor: Colors.white,
           body: BlocConsumer<HomeBloc,HomeState>(
             builder: (context, state) {
@@ -270,14 +276,5 @@ class _EventDetailPageState extends State<EventDetailPage> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(){
-    return AppBar(
-      title: const Text('Detalle Evento',style: CustomTextStyles.titleAppbar,),
-      elevation: 0,
-      backgroundColor: Colors.white,
-      centerTitle: true,
-      leading:  IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.of(context).pop(),),
-      iconTheme: const IconThemeData(color: AppColors.fuchsia,),
-    );
-  }
+
 }
