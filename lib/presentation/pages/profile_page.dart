@@ -6,6 +6,7 @@ import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/pages/faq_page.dart';
+import 'package:rudo_app_clone/presentation/pages/settings_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/custom_card_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/image_profile_user_widget.dart';
 
@@ -55,7 +56,7 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 8,),
                  _buildProfileItem('Ajustes',Icons.settings_outlined,
                   () {
-                  
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SettingsPage(),));
                 },)
       
               ],

@@ -60,3 +60,6 @@ flutter:
     - 'assets/images/yellow_interrogant.png'
     - 'assets/images/temp.png'
     - 'assets/images/error.png'
+    - 'assets/images/location_icon.png'
+    - 'assets/images/notification_icon.png'
+    - 'assets/images/person_icon.png'

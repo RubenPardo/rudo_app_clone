@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({super.key,required this.child, this.elevation = 0, this.borderColor});
+  const CustomCard({super.key,
+  required this.child, 
+  this.elevation = 0, 
+  this.paddingH = 16,
+  this.paddingV = 16,
+  this.borderColor});
 
   final Widget child;
+  final double paddingH;
+  final double paddingV;
   final double elevation;
   final Color? borderColor;
 
@@ -22,7 +29,7 @@ class CustomCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: paddingH, vertical: paddingV),
           child: child
           ),
       )
