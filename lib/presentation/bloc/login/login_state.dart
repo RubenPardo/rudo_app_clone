@@ -24,3 +24,11 @@ class Loged extends LogInState{
   @override
   List<Object?> get props => [user];
 }
+
+class LogedOut extends LogInState{
+
+  LogedOut();
+  
+  @override
+  List<Object?> get props => [];
+}

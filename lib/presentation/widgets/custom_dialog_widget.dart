@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 
 class CustomDialog extends StatelessWidget {
-  const CustomDialog({super.key, required this.title, required this.content, required this.cancelText, required this.confirmText, this.onConfirm});
+  const CustomDialog({super.key, required this.title, required this.content, required this.cancelText, required this.confirmText, this.onConfirm, 
+  this.oneButtonOnly = false});
 
   final String title, content, cancelText, confirmText;
   final Function()? onConfirm; 
+  final bool oneButtonOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -32,36 +32,40 @@ class CustomDialog extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     children: [
 
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16))
-                            ),
-                            child: Center(
-                              child: TextButton(
-                                child: Text(cancelText,style: CustomTextStyles.bodyLarge,),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
+                        // ----------------- cancel button
+                        oneButtonOnly ? const SizedBox() 
+                        : Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              height: 48,
+                              decoration:const  BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16),),
+                              ),
+                              child: Center(
+                                child:Text(cancelText,style: CustomTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold,),),
                               ),
                             ),
-                          )
+                          ),
                         ),
-
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(16))
-                            ),
-                            child: Center(
-                              child: TextButton(
-                                onPressed: (){
-                                  onConfirm!.call();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(confirmText,style: CustomTextStyles.bodyLarge,),
+                        // --------------- confrim button
+                         Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              onConfirm?.call();
+                                    Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              height: 48,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.only(bottomRight: const Radius.circular(16),bottomLeft: Radius.circular(oneButtonOnly ? 16 : 0)),
+                              ),
+                              child: Center(
+                                child: Text(confirmText,style: CustomTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold),),
                               ),
                             ),
                           )

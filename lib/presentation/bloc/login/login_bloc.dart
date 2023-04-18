@@ -2,8 +2,11 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rudo_app_clone/core/storage_keys.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
+import 'package:rudo_app_clone/data/service/storage_service.dart';
 import 'package:rudo_app_clone/domain/use_cases/auth/google_sigin_use_case.dart';
+import 'package:rudo_app_clone/domain/use_cases/auth/refresh_token_use_case.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_state.dart';
 
@@ -15,6 +18,16 @@ class LoginBloc extends Bloc<LogInEvent,LogInState>{
     //final GoogleLoginUseCase loginUseCase = GoogleSignI();
     
     final GoogleSigInUseCase googleSigInUseCase = GoogleSigInUseCase();
+    
+    on<InitLogIn>(
+      (event, emit) async{
+        bool isTokenValid = await CheckValidTokenUseCase().call();
+        if(isTokenValid){
+          add(LogIn());
+        }
+      }
+    );
+    
     ///
     /// evento login
     /// 
@@ -49,7 +62,13 @@ class LoginBloc extends Bloc<LogInEvent,LogInState>{
       },
     );
 
-
+    on<LogOut>(
+      (event, emit) {
+        // remove the auth token saved and go to login
+        StorageService().removeSecureData(StorageKeys.authToken);
+        emit(LogedOut());
+      },
+    );
   }
 
 

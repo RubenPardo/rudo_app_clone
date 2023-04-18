@@ -6,7 +6,6 @@ import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_state.dart';
 import 'package:rudo_app_clone/presentation/pages/home_menu_page.dart';
-import 'package:rudo_app_clone/presentation/pages/home_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +16,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<LoginBloc>().add(InitLogIn());
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size =MediaQuery.of(context).size;
@@ -31,7 +37,6 @@ class _LoginPageState extends State<LoginPage> {
       },
       listener: (context, state) {
         if(state is Error){
-            print(state.message);
           }else if(state is Loged){
             Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => HomeMenuPage(userData: state.user),));

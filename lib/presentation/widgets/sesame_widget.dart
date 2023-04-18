@@ -85,11 +85,28 @@ class _SesameWidgetState extends State<SesameWidget> {
 
 
         if(state is Error){
-          log(state.message);
-          Utils.showSnakError("Error inesperado",context);
-          setState(() {
+           setState(() {
             _sesameLoading = false;
           });
+          log(state.message);
+          if(state.message.contains('localizacion')){
+             showDialog<bool>(
+                      context: context,
+                      barrierDismissible: true,
+
+                      builder: (BuildContext context) {
+                        return const CustomDialog(
+                          oneButtonOnly: true,
+                          title: '¡Aviso!', 
+                          content: 'No se puede realizar esta accion sin el permiso de localización. Dirígete a los ajustes y activa los permisos de localización.',
+                          cancelText: 'Cancelar',
+                          confirmText: 'Cancelar',);
+                      },
+                    );
+          }else{
+            Utils.showSnakError("Error inesperado",context);
+          }
+         
         }
       },
     );
