@@ -15,6 +15,7 @@ import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_event.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_state.dart';
 import 'package:rudo_app_clone/presentation/pages/time_record_page.dart';
+import 'package:rudo_app_clone/presentation/widgets/custom_dialog_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class SesameWidget extends StatefulWidget {
@@ -307,71 +308,11 @@ class _SesameWidgetState extends State<SesameWidget> {
       barrierDismissible: true,
 
       builder: (BuildContext context) {
-        return AlertDialog(
-          titlePadding: EdgeInsets.zero,
-          contentPadding: EdgeInsets.zero,
-          content: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16)
-              ),
-              
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Padding(padding: EdgeInsets.all(16),child: Text('¡Aviso!',style: CustomTextStyles.title2,),),
-                  const Divider(),
-                  Padding(padding: const EdgeInsets.symmetric(horizontal: 32,vertical: 16),child: Text(content,style: CustomTextStyles.bodyLarge,textAlign: TextAlign.center,),),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16))
-                            ),
-                            child: Center(
-                              child: TextButton(
-                                child: const Text('No',style: CustomTextStyles.bodyLarge,),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                          )
-                        ),
-
-                        Expanded(
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(16))
-                            ),
-                            child: Center(
-                              child: TextButton(
-                                onPressed: (){
-                                  onConfirm!.call();
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Sí',style: CustomTextStyles.bodyLarge,),
-                              ),
-                            ),
-                          )
-                        ),
-
-                        
-                    ],
-                  ),
-                  
-                ],
-              )
-
-              
-            ),
-        );
+        return CustomDialog(title: '¡Aviso!', 
+        content: content,
+        cancelText: 'No',
+        confirmText: 'Sí',
+        onConfirm: onConfirm,);
       },
     );
   }
