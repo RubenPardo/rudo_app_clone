@@ -106,6 +106,14 @@ extension DateHelpers on DateTime {
     return '${days[weekday-1]} $day de ${months[month-1]}';
   }
 
+  /// format a date time intp a string {Vie, 31 de Mar 2023}
+  String toStringDataNameDayMonthAbvYear(){
+    List months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dic'];
+    List days = ['Lun','Mar','Mie','Jue','Vie',"Sab","Dom"];
+    return '${days[weekday-1]}, $day ${months[month-1]} $year';
+  }
+
+
   String toStringDataNameDayMonthAbreviated(){
     List months = ['En','Feb','Mar','Abr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dic'];
     List days = ['Lun','Mar','Mie','Jue','Vie',"Sab","Dom"];

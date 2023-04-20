@@ -7,6 +7,7 @@ import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/data/model/gallery/album.dart';
 import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
+import 'package:rudo_app_clone/presentation/pages/album_page.dart';
 import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
@@ -79,25 +80,28 @@ class _GalleryPageState extends State<GalleryPage> {
 
 
   Widget _buildAlbumItem(Album album){
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: Container(
-            height: 156,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(image: NetworkImage(album.coverThumbnail,),fit: BoxFit.cover),
-              
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlbumPage(album: album),)),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 1,
+            child: Container(
+              height: 156,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(image: NetworkImage(album.coverThumbnail,),fit: BoxFit.cover),
+                
+              ),
             ),
           ),
-        ),
-        const Spacer(),
-        Text(album.name,style: CustomTextStyles.title4,),
-        Text('${album.imageCounter} fotos'),
-      ],
+          const Spacer(),
+          Text(album.name,style: CustomTextStyles.title4,),
+          Text('${album.imageCounter} fotos'),
+        ],
+      ),
     );
   }
 

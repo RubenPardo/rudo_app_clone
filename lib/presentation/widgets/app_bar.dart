@@ -9,17 +9,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
     required this.appBar,
     required this.title, 
     required this.backgroundColor, 
+    this.actions,
     required this.canPop});
 
   final String title;
   final Color backgroundColor;
   final AppBar appBar;
   final bool canPop;
-
+  final List<Widget>? actions;
+ 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: backgroundColor,
+      actions: actions,
       title: Text(title,style: CustomTextStyles.titleAppbar,),
       elevation: 0,
       backgroundColor: backgroundColor,
@@ -30,6 +33,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
   
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
 }
