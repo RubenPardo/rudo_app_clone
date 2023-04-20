@@ -26,7 +26,10 @@ class ImageProfileUserWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xff7c94b6),
           image: DecorationImage(
-            image: NetworkImage(userData.image != null ?  isBig ? userData.image!.fullsize ??  "" : userData.image!.thumbnail ??  "": ""),
+            image: ResizeImage(
+              NetworkImage(userData.image != null ?  isBig ? userData.image!.fullsize ??  "" : userData.image!.thumbnail ??  "": "",),
+              width: 514,height: 514
+            ),
             fit: BoxFit.fill,
           ),
           borderRadius: const BorderRadius.all( Radius.circular(100.0)),
