@@ -9,13 +9,17 @@ class ContentErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double aspectRatio = MediaQuery.of(context).devicePixelRatio;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 55),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(padding: const EdgeInsets.only(left: 50),child: Image.asset('assets/images/error.png',),),
+            Padding(padding: const EdgeInsets.only(left: 50),child: 
+              Image.asset('assets/images/error.png', cacheHeight: (aspectRatio*120).round(),),
+            
+            ),
             const SizedBox(height: 40,),
             const Text('Algo no funciona',style: CustomTextStyles.titleAppbar,),
             const SizedBox(height: 12,),

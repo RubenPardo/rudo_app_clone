@@ -1,3 +1,4 @@
+import 'package:rudo_app_clone/data/model/gallery/photo.dart';
 import 'package:rudo_app_clone/data/model/user/user_data.dart';
 
 class Album{
@@ -10,6 +11,11 @@ class Album{
   final int imageCounter;
 
   final List<UserData> userData;
+
+  List<Photo>? photos;
+
+  bool get hasPhotos => photos !=null;
+  set setPhotos(List<Photo> photos) => this.photos = photos;
 
   Album({
     required this.id,

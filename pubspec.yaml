@@ -66,3 +66,4 @@ flutter:
     - 'assets/images/location_icon.png'
     - 'assets/images/notification_icon.png'
     - 'assets/images/person_icon.png'
+    - 'assets/images/empty_album.png'

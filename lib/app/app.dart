@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/colors.dart';
+import 'package:rudo_app_clone/presentation/bloc/album/album_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/alerts/alert_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/gallery/gallery_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/sesame/sesame_bloc.dart';
@@ -22,6 +24,8 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => HomeBloc(),),
         BlocProvider(create: (context) => SesameBloc(),),
         BlocProvider(create: (context) => AlertBloc(),),
+        BlocProvider(create: (context) => GalleryBloc(),),
+        BlocProvider(create: (context) => AlbumBloc(),),
       ],
       child: MaterialApp(
         theme: ThemeData(
