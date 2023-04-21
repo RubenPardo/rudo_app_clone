@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rudo_app_clone/app/colors.dart';
 import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/data/model/gallery/album.dart';
+import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/data/service/rudo_api_service.dart';
 import 'package:rudo_app_clone/presentation/bloc/gallery/gallery_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/gallery/gallery_event.dart';
@@ -17,7 +18,9 @@ import 'package:rudo_app_clone/presentation/widgets/error_widget.dart';
 import 'package:rudo_app_clone/presentation/widgets/primary_button.dart';
 
 class GalleryPage extends StatefulWidget {
-  const GalleryPage({super.key});
+  const GalleryPage({super.key, required this.user});
+
+  final UserData user;
 
   @override
   State<GalleryPage> createState() => _GalleryPageState();
@@ -116,7 +119,7 @@ class _GalleryPageState extends State<GalleryPage> {
 
   Widget _buildAlbumItem(Album album, double devicePixelRatio){
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlbumPage(album: album),)),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AlbumPage(album: album, user: widget.user,),)),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,6 +4,7 @@ class Photo{
   final int id;
  final String file, thumbnail, midSize, fullSize;
  final List<UserData> taggedUsers;
+ final UserData user;
 
  Photo({
   required this.id,
@@ -12,6 +13,7 @@ class Photo{
   required this.midSize,
   required this.fullSize,
   required this.taggedUsers,
+  required this.user
  });
 
 
@@ -22,7 +24,10 @@ class Photo{
       thumbnail: json['image']['thumbnail'], 
       midSize: json['image']['midsize'], 
       fullSize: json['image']['fullsize'], 
-      taggedUsers: json['publishers']!=null ? (json['publishers'] as List).map<UserData>((e) => UserData.fromJson(e)).toList() : []
+      taggedUsers: json['publishers']!=null ? (json['publishers'] as List).map<UserData>((e) => UserData.fromJson(e)).toList() : [],
+      user: UserData(
+        firstName: json['user']['name'],
+      )
     );
   }
 

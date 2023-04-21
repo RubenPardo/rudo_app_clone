@@ -39,7 +39,7 @@ class _HomeMenuPageState extends State<HomeMenuPage> {
       body: <Widget>[
         HomePage(userData: widget.userData),
         const EventsPage(),
-        const GalleryPage(),
+        GalleryPage(user: widget.userData,),
         const AlertPage(),
         ProfilePage(userData: widget.userData),
 

@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:rudo_app_clone/data/model/user/image.dart';
 import 'package:rudo_app_clone/data/model/user/rank.dart';
 import 'package:rudo_app_clone/data/model/user/tech.dart';
 
-class UserData {
+class UserData extends Equatable{
   String? firstName;
   String? lastName;
   String? email;
@@ -46,6 +47,13 @@ class UserData {
       isTrip: json['is_trip'],
     );
   }
+  
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+
+  
 
   
 }

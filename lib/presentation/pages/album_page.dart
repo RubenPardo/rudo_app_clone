@@ -7,18 +7,23 @@ import 'package:rudo_app_clone/app/styles.dart';
 import 'package:rudo_app_clone/core/utils.dart';
 import 'package:rudo_app_clone/data/model/gallery/album.dart';
 import 'package:rudo_app_clone/data/model/gallery/photo.dart';
+import 'package:rudo_app_clone/data/model/user/user_data.dart';
 import 'package:rudo_app_clone/presentation/bloc/album/album_bloc.dart';
 import 'package:rudo_app_clone/presentation/bloc/album/album_state.dart';
 import 'package:rudo_app_clone/presentation/bloc/gallery/gallery_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/home/home_bloc.dart';
+import 'package:rudo_app_clone/presentation/bloc/login/login_bloc.dart';
+import 'package:rudo_app_clone/presentation/pages/images_detail.dart';
 import 'package:rudo_app_clone/presentation/widgets/app_bar.dart';
 import 'package:rudo_app_clone/presentation/widgets/error_widget.dart';
 
 import '../bloc/album/album_event.dart';
 
 class AlbumPage extends StatefulWidget {
-  const AlbumPage({super.key, required this.album});
+  const AlbumPage({super.key, required this.album, required this.user});
 
   final Album album;
+  final UserData user;
 
   @override
   State<AlbumPage> createState() => _AlbumPageState();
@@ -149,7 +154,17 @@ class _AlbumPageState extends State<AlbumPage> {
               itemCount: photos.length,
               itemBuilder: (context, index) {
                 
-                return Image.network(photos[index].midSize,fit: BoxFit.cover,cacheHeight: (devicePixelRatio*150).round() ,cacheWidth: (devicePixelRatio*150).round(),);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => 
+                    ImagesDetail(
+                      title: widget.album.created.toStringDayMonthYear(),
+                      startsAt:index,
+                      photos: photos,
+                      user: widget.user
+                    ),));
+                  },
+                  child: Image.network(photos[index].midSize,fit: BoxFit.cover,cacheHeight: (devicePixelRatio*150).round() ,cacheWidth: (devicePixelRatio*150).round(),));
               },
             ),
           ),
@@ -157,3 +172,5 @@ class _AlbumPageState extends State<AlbumPage> {
       );
   }
 }
+
+
